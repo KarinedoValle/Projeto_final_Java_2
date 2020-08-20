@@ -38,12 +38,12 @@ Uma empresa do comércio varejista deseja realizar a venda de seus produtos pela
 9. Sobre os funcionários, é necessário guardar apenas um código, nome e cpf.
 
 T1
-<img src=”/Projeto_final_Java_2/MER.png” alt ="Modelo entidade relacionamento">
-t2
-<img src=”https://lh6.googleusercontent.com/isgXpHfRpDk58FHePVLZyozffY_JFku_bHUfzl2VBKo7HhkRgnpWq4VkQB1uOIQduO_BDfxY0iUkHX8W76vO5lNiMi0LFxH5xsGNZXOIsGlSyjRZA0OOh7IkaKNphX-6ce1DjC1A” alt ="Modelo entidade relacionamento">
+<img src=”\src\img\MER.png” alt ="Modelo entidade relacionamento">
+<img src=”/src/img/MER.png” alt ="Modelo entidade relacionamento">
 
 t3
-![Modelo entidade relacionamento](/Projeto_final_Java_2/MER.png)
+![Modelo entidade relacionamento](\src\img\MER.png)
+![Modelo entidade relacionamento](/src/img/MER.png)
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
