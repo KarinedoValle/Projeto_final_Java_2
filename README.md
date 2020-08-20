@@ -37,13 +37,11 @@ Uma empresa do comércio varejista deseja realizar a venda de seus produtos pela
 
 9. Sobre os funcionários, é necessário guardar apenas um código, nome e cpf.
 
-T1
-<img src=”\src\img\MER.png” alt ="Modelo entidade relacionamento">
-<img src=”/src/img/MER.png” alt ="Modelo entidade relacionamento">
 
-t3
-![Modelo entidade relacionamento](\src\img\MER.png)
-![Modelo entidade relacionamento](/src/img/MER.png)
+<img src=”img/MER.png” alt ="Modelo entidade relacionamento">
+
+
+![Modelo entidade relacionamento](img/MER.png)
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
