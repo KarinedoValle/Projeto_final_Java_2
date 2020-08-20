@@ -1,5 +1,5 @@
 # Projeto_final_Java_2
-Projeto final da matéria Java 1 na [Residência de Software](http://serratec.org/residencia-de-software/).
+Projeto final da matéria Java 2 utilizando PostgreSQL, Spring, Maven e Swagger na [Residência de Software](http://serratec.org/residencia-de-software/).
 
 - Feito em grupo com [Maria Clara Barbosa Estrella](https://github.com/mariaclarabarbosa), [Wenny Campos Teixeira](https://github.com/wennycampos), [Luis Felipe Granja](https://github.com/lfcgranja) e [Thiago Probst Coelho Vieira](https://github.com/ThiagoProbst).
 
@@ -36,12 +36,6 @@ Uma empresa do comércio varejista deseja realizar a venda de seus produtos pela
 8. Um pedido pode ter mais de um item de um mesmo produto, de acordo com a quantidade disponível em estoque.
 
 9. Sobre os funcionários, é necessário guardar apenas um código, nome e cpf.
-
-
-<img src=”img/MER.png” alt ="Modelo entidade relacionamento">
-
-
-![Modelo entidade relacionamento](img/MER.png)
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
