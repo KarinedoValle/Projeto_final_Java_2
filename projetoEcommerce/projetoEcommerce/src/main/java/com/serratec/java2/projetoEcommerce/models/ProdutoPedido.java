@@ -1,10 +1,15 @@
 package com.serratec.java2.projetoEcommerce.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,17 +19,25 @@ public class ProdutoPedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "codigo", nullable = false)
-	private Integer codigo;
+	private Integer id;
 	
 	@Column(name = "quantidade_itens", nullable = false)
 	private Integer quantidade_itens;
 	
 	//Foreign keys
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "produto", joinColumns = @JoinColumn (name = "codigo_produto", 
+			referencedColumnName = "codigo"))
 	@Column(name = "codigo_produto", nullable = false)
 	private Integer codigo_produto;
 	
+	@JoinTable(name = "produto", joinColumns = @JoinColumn (name = "codigo_produto", 
+			referencedColumnName = "codigo"))
 	@Column(name = "codigo_pedido", nullable = false)
 	private Integer codigo_pedido;
+	
+	
 	
 	
 	//Construtores
@@ -34,7 +47,7 @@ public class ProdutoPedido {
 
 	public ProdutoPedido(Integer codigo, Integer quantidade_itens, Integer codigo_produto, Integer codigo_pedido) {
 		super();
-		this.codigo = codigo;
+		this.id = codigo;
 		this.quantidade_itens = quantidade_itens;
 		this.codigo_produto = codigo_produto;
 		this.codigo_pedido = codigo_pedido;
@@ -44,12 +57,12 @@ public class ProdutoPedido {
 	
 	//Getters and Setters
 	public Integer getCodigo() {
-		return codigo;
+		return id;
 	}
 
 
 	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
+		this.id = codigo;
 	}
 
 

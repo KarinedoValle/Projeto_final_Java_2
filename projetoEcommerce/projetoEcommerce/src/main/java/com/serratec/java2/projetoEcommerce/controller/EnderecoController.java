@@ -14,50 +14,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.serratec.java2.projetoEcommerce.models.Cliente;
-import com.serratec.java2.projetoEcommerce.service.ClienteService;
+import com.serratec.java2.projetoEcommerce.models.Endereco;
 import com.serratec.java2.projetoEcommerce.service.EnderecoService;
 
 @RestController
-@RequestMapping("/cliente")
-public class ClienteController {
+@RequestMapping("/endereco")
+public class EnderecoController {
 	
 	@Autowired
-	ClienteService clienteService;
 	EnderecoService enderecoService;
-	
-//	cadastrar/deletar/atualizar clientes
 
-	
 	@PostMapping
-	public ResponseEntity<Void> inserirCliente(@RequestBody Cliente cliente){
-		clienteService.inserirCliente(cliente);
+	public ResponseEntity<Void> inserirEndereco(@RequestBody Endereco endereco){
+		enderecoService.inserirEndereco(endereco);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Cliente> listarClientesPorId(@PathVariable Integer id){
-		Cliente cliente = clienteService.listarClientesPorId(id); 
-		return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
+	public ResponseEntity<Endereco> listarEnderecoPorId(@PathVariable Integer id){
+		Endereco endereco = enderecoService.listarEnderecoPorId(id); 
+		return new ResponseEntity<Endereco>(endereco, HttpStatus.OK);
 	}
 	
 	
 	@GetMapping
-	public ResponseEntity<List<Cliente>> listarClientes(){
-		return new ResponseEntity<List<Cliente>>(clienteService.listarClientes(), HttpStatus.OK);
+	public ResponseEntity<List<Endereco>> listarEnderecos(){
+		return new ResponseEntity<List<Endereco>>(enderecoService.listarEndereco(), HttpStatus.OK);
 	}
 	 
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletarCliente(@PathVariable Integer id){
-		clienteService.deletarCliente(id);
+	public ResponseEntity<Void> deletarEndereco(@PathVariable Integer id){
+		enderecoService.deletarEndereco(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
-	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Cliente cliente) {
-		clienteService.substituir(id, cliente);
+	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Endereco endereco) {
+		enderecoService.substituir(id, endereco);
 	}
-	
-
 }

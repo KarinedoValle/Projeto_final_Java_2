@@ -1,12 +1,19 @@
 package com.serratec.java2.projetoEcommerce.models;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,12 +21,12 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name = "produto")
-public class Produto {
+public class Produto extends ProdutoPedido {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "codigo", nullable = false)
-	private Integer codigo;
+	private Integer id;
 	
 	@Column(name = "nome", nullable = false, length = 50)
 	private String nome;
@@ -38,11 +45,22 @@ public class Produto {
 	private Double valor_unitario;
 	
 	//foreign keys
-	@Column(name = "valor_unitario", nullable = false)
-	private Integer codigo_funcionario;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "funcionario", referencedColumnName = "codigo")
+	@Column(name = "codigo_funcionario", nullable = false)
+	private Funcionario funcionario;
 	
-	@Column(name = "valor_unitario", nullable = false)
-	private Integer codigo_categoria;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "categoria", referencedColumnName = "codigo")
+	@Column(name = "codigo_categoria", nullable = false)
+	private Categoria categoria;
+	
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "produto_pedido", joinColumns = @JoinColumn (name = "codigo_produto", 
+	referencedColumnName = "codigo"),
+	inverseJoinColumns = @JoinColumn (name = "codigo_pedido", referencedColumnName = "codigo"))
+	private List<Pedido> codigoPedido;
 	
 
 	//Construtores
@@ -51,27 +69,25 @@ public class Produto {
 
 
 	public Produto(Integer codigo, String nome, String descricao, Integer quantidade_estoque, Date data_fabricacao,
-			Double valor_unitario, Integer codigo_funcionario, Integer codigo_categoria) {
+			Double valor_unitario) {
 		super();
-		this.codigo = codigo;
+		this.id = codigo;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.quantidade_estoque = quantidade_estoque;
 		this.data_fabricacao = data_fabricacao;
 		this.valor_unitario = valor_unitario;
-		this.codigo_funcionario = codigo_funcionario;
-		this.codigo_categoria = codigo_categoria;
 	}
 
 
 	//Getters and Setters
 	public Integer getCodigo() {
-		return codigo;
+		return id;
 	}
 
 
 	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
+		this.id = codigo;
 	}
 
 
@@ -123,27 +139,5 @@ public class Produto {
 	public void setValor_unitario(Double valor_unitario) {
 		this.valor_unitario = valor_unitario;
 	}
-
-
-	public Integer getCodigo_funcionario() {
-		return codigo_funcionario;
-	}
-
-
-	public void setCodigo_funcionario(Integer codigo_funcionario) {
-		this.codigo_funcionario = codigo_funcionario;
-	}
-
-
-	public Integer getCodigo_categoria() {
-		return codigo_categoria;
-	}
-
-
-	public void setCodigo_categoria(Integer codigo_categoria) {
-		this.codigo_categoria = codigo_categoria;
-	}
-	
-	
 
 }
