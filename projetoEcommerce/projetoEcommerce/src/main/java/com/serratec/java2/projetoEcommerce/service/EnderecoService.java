@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.serratec.java2.projetoEcommerce.models.Endereco;
 import com.serratec.java2.projetoEcommerce.repository.EnderecoRepository;
 
+@Service
 public class EnderecoService {
 	
 //	cadastrar/deletar/atualizar endereço

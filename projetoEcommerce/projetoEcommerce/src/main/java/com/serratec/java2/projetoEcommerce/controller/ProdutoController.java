@@ -61,7 +61,7 @@ public class ProdutoController {
 		return new ResponseEntity<Double>(valor, HttpStatus.OK);
 	}
 	
-	@PutMapping("/estoque/{id}")
+	@PutMapping("/preco/{id}")
 	public void atualizarPreco(@PathVariable Integer id, @RequestBody(required = false) Double valor) {
 		produtoService.atualizarPreco(id, valor);
 	}

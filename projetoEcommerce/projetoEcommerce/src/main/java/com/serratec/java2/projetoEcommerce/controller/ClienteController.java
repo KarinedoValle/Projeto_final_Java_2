@@ -24,6 +24,7 @@ public class ClienteController {
 	
 	@Autowired
 	ClienteService clienteService;
+	@Autowired
 	EnderecoService enderecoService;
 	
 //	cadastrar/deletar/atualizar clientes

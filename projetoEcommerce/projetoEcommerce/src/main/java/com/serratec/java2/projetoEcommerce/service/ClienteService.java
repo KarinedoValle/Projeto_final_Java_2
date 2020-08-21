@@ -4,17 +4,20 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.serratec.java2.projetoEcommerce.models.Cliente;
 import com.serratec.java2.projetoEcommerce.repository.ClienteRepository;
 import com.serratec.java2.projetoEcommerce.repository.EnderecoRepository;
 
+@Service
 public class ClienteService {
 
 //		cadastrar/deletar/atualizar clientes
 
 	@Autowired
 	ClienteRepository clienteRepository;
+	@Autowired
 	EnderecoRepository enderecoRepository;
 	
 	public void inserirCliente(Cliente cliente) {

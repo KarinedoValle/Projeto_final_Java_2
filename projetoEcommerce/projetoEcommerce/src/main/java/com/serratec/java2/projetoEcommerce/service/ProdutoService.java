@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.serratec.java2.projetoEcommerce.models.Produto;
 import com.serratec.java2.projetoEcommerce.repository.ProdutoRepository;
 
+@Service
 public class ProdutoService {
 
 //		cadastrar/deletar/atualizar produto 

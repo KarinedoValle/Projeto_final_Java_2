@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.serratec.java2.projetoEcommerce.models.Pedido;
 import com.serratec.java2.projetoEcommerce.models.ProdutoPedido;
 import com.serratec.java2.projetoEcommerce.repository.PedidoRepository;
 
+@Service
 public class PedidoService {
 
 //		inserir/atualizar/deletar pedidos
