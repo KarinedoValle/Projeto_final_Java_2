@@ -25,9 +25,8 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 public class Pedido extends ProdutoPedido {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "codigo", nullable = false)
-	private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer codigo;
 	
 	@Column(name = "data_pedido")
 	@DateTimeFormat(iso = ISO.DATE)
@@ -40,7 +39,6 @@ public class Pedido extends ProdutoPedido {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn (name = "codigo_cliente", 
 	referencedColumnName = "codigo")
-	@Column(name = "codigo_cliente", nullable = false)
 	private Cliente cliente;
 	
 	
@@ -58,7 +56,7 @@ public class Pedido extends ProdutoPedido {
 
 	public Pedido(Integer codigo, Date data_pedido, Integer valor_total) {
 		super();
-		this.id = codigo;
+		this.codigo = codigo;
 		this.data_pedido = data_pedido;
 		this.valor_total = valor_total;
 	}
@@ -66,11 +64,11 @@ public class Pedido extends ProdutoPedido {
 	
 	//Getters and Setters
 	public Integer getCodigo() {
-		return id;
+		return codigo;
 	}
 
 	public void setCodigo(Integer codigo) {
-		this.id = codigo;
+		this.codigo = codigo;
 	}
 
 	public Date getData_pedido() {

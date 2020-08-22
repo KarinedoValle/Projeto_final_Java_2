@@ -17,25 +17,14 @@ import javax.persistence.Table;
 public class ProdutoPedido {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "codigo", nullable = false)
-	private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer codigo;
 	
 	@Column(name = "quantidade_itens", nullable = false)
 	private Integer quantidade_itens;
 	
 	//Foreign keys
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "produto", joinColumns = @JoinColumn (name = "codigo_produto", 
-			referencedColumnName = "codigo"))
-	@Column(name = "codigo_produto", nullable = false)
-	private Integer codigo_produto;
-	
-	@JoinTable(name = "produto", joinColumns = @JoinColumn (name = "codigo_produto", 
-			referencedColumnName = "codigo"))
-	@Column(name = "codigo_pedido", nullable = false)
-	private Integer codigo_pedido;
 	
 	
 	
@@ -45,24 +34,22 @@ public class ProdutoPedido {
 	}
 
 
-	public ProdutoPedido(Integer codigo, Integer quantidade_itens, Integer codigo_produto, Integer codigo_pedido) {
+	public ProdutoPedido(Integer codigo, Integer quantidade_itens) {
 		super();
-		this.id = codigo;
+		this.codigo = codigo;
 		this.quantidade_itens = quantidade_itens;
-		this.codigo_produto = codigo_produto;
-		this.codigo_pedido = codigo_pedido;
 	}
 
 
 	
 	//Getters and Setters
 	public Integer getCodigo() {
-		return id;
+		return codigo;
 	}
 
 
 	public void setCodigo(Integer codigo) {
-		this.id = codigo;
+		this.codigo = codigo;
 	}
 
 
@@ -76,24 +63,4 @@ public class ProdutoPedido {
 	}
 
 
-	public Integer getCodigo_produto() {
-		return codigo_produto;
-	}
-
-
-	public void setCodigo_produto(Integer codigo_produto) {
-		this.codigo_produto = codigo_produto;
-	}
-
-
-	public Integer getCodigo_pedido() {
-		return codigo_pedido;
-	}
-
-
-	public void setCodigo_pedido(Integer codigo_pedido) {
-		this.codigo_pedido = codigo_pedido;
-	}
-
-	
 }

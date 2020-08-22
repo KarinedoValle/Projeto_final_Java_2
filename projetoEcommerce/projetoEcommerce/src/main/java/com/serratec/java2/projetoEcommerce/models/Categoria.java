@@ -17,9 +17,8 @@ import javax.persistence.Table;
 public class Categoria {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "codigo", nullable = false)
-	private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer codigo;
 	
 	@Column(name = "nome", nullable = false, length = 50)
 	private String nome;
@@ -38,7 +37,7 @@ public class Categoria {
 
 	public Categoria(Integer codigo, String nome, String descricao) {
 		super();
-		this.id = codigo;
+		this.codigo = codigo;
 		this.nome = nome;
 		this.descricao = descricao;
 	}
@@ -46,12 +45,12 @@ public class Categoria {
 
 	//Getters and Setters
 	public Integer getCodigo() {
-		return id;
+		return codigo;
 	}
 
 
 	public void setCodigo(Integer codigo) {
-		this.id = codigo;
+		this.codigo = codigo;
 	}
 
 

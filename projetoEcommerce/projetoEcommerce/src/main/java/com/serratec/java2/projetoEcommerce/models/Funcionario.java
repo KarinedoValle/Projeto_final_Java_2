@@ -12,19 +12,22 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.sun.istack.NotNull;
+
 @Entity
 @Table(name = "funcionario")
 public class Funcionario {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "codigo", nullable = false)
-	private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer codigo;
 	
+	@NotNull
 	@Column(name = "nome", nullable = false, length = 50)
 	private String nome;
 	
-	@Column(name = "cpf", nullable = false)
+	@NotNull
+	@Column(name = "cpf", nullable = false, length = 11)
 	private Integer cpf;
 	
 	@OneToMany(targetEntity = Produto.class, mappedBy = "funcionario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -37,17 +40,17 @@ public class Funcionario {
 
 	public Funcionario(Integer codigo, String nome, Integer cpf) {
 		super();
-		this.id = codigo;
+		this.codigo = codigo;
 		this.nome = nome;
 		this.cpf = cpf;
 	}
 
 	public Integer getCodigo() {
-		return id;
+		return codigo;
 	}
 
 	public void setCodigo(Integer codigo) {
-		this.id = codigo;
+		this.codigo = codigo;
 	}
 
 	public String getNome() {

@@ -22,9 +22,8 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 public class Cliente {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "codigo", nullable = false)
-	private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer codigo;
 	
 	@Column(name = "nome", nullable = false, length = 50)
 	private String nome;
@@ -39,8 +38,7 @@ public class Cliente {
 	private Integer cpf;
 	
 	@Column(name = "data_nascimento")
-	@DateTimeFormat(iso = ISO.DATE)
-	private Date data_nascimento;
+	private String data_nascimento;
 	
 	@OneToMany(targetEntity = Pedido.class, mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Pedido> pedidos;
@@ -48,8 +46,7 @@ public class Cliente {
 	//Chave estrangeira da tabela endereço
 	
 	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-	@Column(name = "codigo_endereco", nullable = false)
-	private Integer codigo_endereco;
+	private Endereco endereco;
 	
 	
 	//Construtores
@@ -57,26 +54,24 @@ public class Cliente {
 		
 	}
 	
-	public Cliente(Integer codigo, String nome, String usuario, String email, Integer cpf, Date data_nascimento,
-			Integer codigo_endereco) {
+	public Cliente(Integer codigo, String nome, String usuario, String email, Integer cpf, String data_nascimento) {
 		super();
-		this.id = codigo;
+		this.codigo = codigo;
 		this.nome = nome;
 		this.usuario = usuario;
 		this.email = email;
 		this.cpf = cpf;
 		this.data_nascimento = data_nascimento;
-		this.codigo_endereco = codigo_endereco;
 	}
 	
 
 	//Getters and Setters
 	public Integer getCodigo() {
-		return id;
+		return codigo;
 	}
 
 	public void setCodigo(Integer codigo) {
-		this.id = codigo;
+		this.codigo = codigo;
 	}
 
 	public String getNome() {
@@ -111,20 +106,12 @@ public class Cliente {
 		this.cpf = cpf;
 	}
 
-	public Date getData_nascimento() {
+	public String getData_nascimento() {
 		return data_nascimento;
 	}
 
-	public void setData_nascimento(Date data_nascimento) {
+	public void setData_nascimento(String data_nascimento) {
 		this.data_nascimento = data_nascimento;
-	}
-
-	public Integer getCodigo_endereco() {
-		return codigo_endereco;
-	}
-
-	public void setCodigo_endereco(Integer codigo_endereco) {
-		this.codigo_endereco = codigo_endereco;
 	}
 
 }

@@ -49,7 +49,7 @@ public class ProdutoService {
 	}
 
 	public Double consultarPreco(Integer id) {
-		Optional <Produto> opProduto = produtoRepository.findByValor_unitario(id);
+		Optional <Produto> opProduto = produtoRepository.findById(id);
 		Produto produto = opProduto.get();
 		Double preco = produto.getValor_unitario();
 		return preco;
@@ -61,7 +61,7 @@ public class ProdutoService {
 	}
 
 	public Integer consultarEstoque(Integer id) {
-		Optional <Produto> opProduto = produtoRepository.findByQuantidade_estoque(id);
+		Optional <Produto> opProduto = produtoRepository.findById(id);
 		Produto produto = opProduto.get();
 		Integer quantidade = produto.getQuantidade_estoque();
 		return quantidade;
