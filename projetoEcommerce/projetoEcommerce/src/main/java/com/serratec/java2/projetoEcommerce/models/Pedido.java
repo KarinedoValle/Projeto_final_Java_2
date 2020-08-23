@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -28,10 +30,11 @@ public class Pedido extends ProdutoPedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codigo;
 	
-	@Column(name = "data_pedido")
-	@DateTimeFormat(iso = ISO.DATE)
-	private Date data_pedido;
 	
+	@Column(name = "data_pedido")
+	private String data_pedido;
+	
+	@NotNull
 	@Column(name = "valor_total", nullable = false)
 	private Integer valor_total;
 	
@@ -49,19 +52,6 @@ public class Pedido extends ProdutoPedido {
 	private List<Produto> codigoProduto;
 	
 	
-
-	//Construtores
-	public Pedido() {
-	}
-
-	public Pedido(Integer codigo, Date data_pedido, Integer valor_total) {
-		super();
-		this.codigo = codigo;
-		this.data_pedido = data_pedido;
-		this.valor_total = valor_total;
-	}
-
-	
 	//Getters and Setters
 	public Integer getCodigo() {
 		return codigo;
@@ -71,11 +61,11 @@ public class Pedido extends ProdutoPedido {
 		this.codigo = codigo;
 	}
 
-	public Date getData_pedido() {
+	public String getData_pedido() {
 		return data_pedido;
 	}
 
-	public void setData_pedido(Date data_pedido) {
+	public void setData_pedido(String data_pedido) {
 		this.data_pedido = data_pedido;
 	}
 

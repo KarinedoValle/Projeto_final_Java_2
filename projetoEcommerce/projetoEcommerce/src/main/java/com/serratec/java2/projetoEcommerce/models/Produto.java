@@ -1,6 +1,5 @@
 package com.serratec.java2.projetoEcommerce.models;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,13 +14,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
+import javax.validation.constraints.Past;
 
 @Entity
 @Table(name = "produto")
-public class Produto extends ProdutoPedido {
+public class Produto  {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,9 +33,9 @@ public class Produto extends ProdutoPedido {
 	@Column(name = "quantidade_estoque", nullable = false)
 	private Integer quantidade_estoque;
 	
+	@Past
 	@Column(name = "data_fabricacao")
-	@DateTimeFormat(iso = ISO.DATE)
-	private Date data_fabricacao;
+	private String data_fabricacao;
 	
 	@Column(name = "valor_unitario", nullable = false)
 	private Double valor_unitario;
@@ -49,7 +46,7 @@ public class Produto extends ProdutoPedido {
 	private Funcionario funcionario;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "categoria", referencedColumnName = "codigo")
+	@JoinColumn(name = "codigo_categoria", referencedColumnName = "codigo")
 	private Categoria categoria;
 	
 	
@@ -58,14 +55,14 @@ public class Produto extends ProdutoPedido {
 	referencedColumnName = "codigo"),
 	inverseJoinColumns = @JoinColumn (name = "codigo_pedido", referencedColumnName = "codigo"))
 	private List<Pedido> codigoPedido;
-	
+//	
 
 	//Construtores
 	public Produto() {
 	}
 
 
-	public Produto(Integer codigo, String nome, String descricao, Integer quantidade_estoque, Date data_fabricacao,
+	public Produto(Integer codigo, String nome, String descricao, Integer quantidade_estoque, String data_fabricacao,
 			Double valor_unitario) {
 		super();
 		this.codigo = codigo;
@@ -118,12 +115,12 @@ public class Produto extends ProdutoPedido {
 	}
 
 
-	public Date getData_fabricacao() {
+	public String getData_fabricacao() {
 		return data_fabricacao;
 	}
 
 
-	public void setData_fabricacao(Date data_fabricacao) {
+	public void setData_fabricacao(String data_fabricacao) {
 		this.data_fabricacao = data_fabricacao;
 	}
 

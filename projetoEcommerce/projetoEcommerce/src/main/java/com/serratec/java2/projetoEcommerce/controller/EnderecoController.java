@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.serratec.java2.projetoEcommerce.exceptions.enderecoNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Endereco;
 import com.serratec.java2.projetoEcommerce.service.EnderecoService;
 
@@ -31,7 +32,7 @@ public class EnderecoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Endereco> listarEnderecoPorId(@PathVariable Integer id){
+	public ResponseEntity<Endereco> listarEnderecoPorId(@PathVariable Integer id) throws enderecoNotFoundException{
 		Endereco endereco = enderecoService.listarEnderecoPorId(id); 
 		return new ResponseEntity<Endereco>(endereco, HttpStatus.OK);
 	}
@@ -44,13 +45,13 @@ public class EnderecoController {
 	 
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletarEndereco(@PathVariable Integer id){
+	public ResponseEntity<Void> deletarEndereco(@PathVariable Integer id) throws enderecoNotFoundException{
 		enderecoService.deletarEndereco(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
-	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Endereco endereco) {
+	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Endereco endereco) throws enderecoNotFoundException {
 		enderecoService.substituir(id, endereco);
 	}
 }

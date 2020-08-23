@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "produto_pedido")
@@ -20,27 +22,26 @@ public class ProdutoPedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codigo;
 	
+	@NotNull
+	@Size(max = 50)
 	@Column(name = "quantidade_itens", nullable = false)
 	private Integer quantidade_itens;
 	
 	//Foreign keys
 
-	
-	
-	
-	
-	//Construtores
-	public ProdutoPedido() {
-	}
+	 
 
-
-	public ProdutoPedido(Integer codigo, Integer quantidade_itens) {
-		super();
-		this.codigo = codigo;
-		this.quantidade_itens = quantidade_itens;
-	}
-
-
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinTable(name = "produto", joinColumns = @JoinColumn (name = "codigo_produto", 
+//            referencedColumnName = "codigo"))
+//    private Produto produto;
+//    
+//
+// 
+//
+//    @JoinTable(name = "produto", joinColumns = @JoinColumn (name = "codigo_produto", 
+//            referencedColumnName = "codigo"))
+//    private Pedido pedido;
 	
 	//Getters and Setters
 	public Integer getCodigo() {

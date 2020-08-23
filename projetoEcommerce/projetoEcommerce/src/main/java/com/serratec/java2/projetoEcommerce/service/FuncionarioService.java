@@ -6,58 +6,49 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.serratec.java2.projetoEcommerce.exception.FuncionarioNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Funcionario;
 import com.serratec.java2.projetoEcommerce.repository.FuncionarioRepository;
 
 @Service
 public class FuncionarioService {
 
-//		deletar/atualizar/cadastrar funcionario
-
 	@Autowired
 	FuncionarioRepository funcionarioRepository;
-	
-	public void inserirFuncionario(Funcionario funcionario) {
-		funcionarioRepository.save(funcionario);
+
+	public List<Funcionario> listarFuncionarios() {
+		List<Funcionario> listaFuncionario = funcionarioRepository.findAll();
 		
-	}
-	
-	public void deletarFuncionario(Integer id) {
-		Funcionario funcionario = listarFuncionarioPorId(id);
-		funcionarioRepository.delete(funcionario);
-		
+		return listaFuncionario;
 	}
 
-	public Funcionario listarFuncionarioPorId(Integer id) {
-		Optional<Funcionario> opFuncionario = funcionarioRepository.findById(id);
-	
-		if(opFuncionario.isPresent()) {
-			Funcionario funcionario = opFuncionario.get();
+	public Funcionario listarFuncionarioPorCodigo(Integer cod) throws FuncionarioNotFoundException {
+		Optional<Funcionario> opFunc = funcionarioRepository.findById(cod);
+		if(opFunc.isPresent()) {
+			Funcionario funcionario = opFunc.get();
 			return funcionario;
 		}
-		return null;
-		//throw new funcionarioNotFoundException("Funcionário com id " + id + " não encontrado.");
+		throw new FuncionarioNotFoundException("O funcionário com o código "+ cod + " não foi encontrado");
 	}
 
-	public List<Funcionario> listarFuncionario() {
-		return funcionarioRepository.findAll();
+	public void criarFuncionario(Funcionario funcionario) {
+		funcionarioRepository.save(funcionario);
 	}
 
-	public Funcionario substituir(Integer id, Funcionario funcionario) {
+	public void atualizarFuncionario(Integer cod, Funcionario funcionario) throws FuncionarioNotFoundException {
+		Funcionario fNoDB = listarFuncionarioPorCodigo(cod);
 		
-		Funcionario funcionarioNoBanco = listarFuncionarioPorId(id);
-		
-		if (funcionario.getNome() != null) {
-			funcionarioNoBanco.setNome(funcionario.getNome());
+		if(funcionario.getNome() != null) {
+			fNoDB.setNome(funcionario.getNome());
 		}
+		if(funcionario.getCpf() != null) {
+			fNoDB.setCpf(funcionario.getCpf());
+		}
+		
+		funcionarioRepository.save(fNoDB);
+	}
 
-		if (funcionario.getCpf() != null) {
-			funcionarioNoBanco.setCpf(funcionario.getCpf());
-		}
-		
-		Funcionario novoFuncionario = funcionarioRepository.save(funcionarioNoBanco);
-		
-		return novoFuncionario;
-		
+	public void deletarFuncionario(Integer cod) {
+		funcionarioRepository.deleteById(cod);
 	}
 }

@@ -6,9 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.serratec.java2.projetoEcommerce.exceptions.pedidoNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Pedido;
-import com.serratec.java2.projetoEcommerce.models.ProdutoPedido;
 import com.serratec.java2.projetoEcommerce.repository.PedidoRepository;
+import com.serratec.java2.projetoEcommerce.repository.ProdutoRepository;
 
 @Service
 public class PedidoService {
@@ -19,27 +20,28 @@ public class PedidoService {
 		
 		@Autowired
 		PedidoRepository pedidoRepository;
+		@Autowired
+		ProdutoRepository produtoRepository;
 		
 		public void inserirPedido(Pedido pedido) {
 			pedidoRepository.save(pedido);
 			
 		}
 		
-		public void deletarPedido(Integer id) {
+		public void deletarPedido(Integer id) throws pedidoNotFoundException {
 			Pedido pedido = listarPedidoPorId(id);
 			pedidoRepository.delete(pedido);
 			
 		}
 
-		public Pedido listarPedidoPorId(Integer id) {
+		public Pedido listarPedidoPorId(Integer id) throws pedidoNotFoundException {
 			Optional<Pedido> opPedido = pedidoRepository.findById(id);
 		
 			if(opPedido.isPresent()) {
 				Pedido pedido = opPedido.get();
 				return pedido;
 			}
-			return null;
-			//throw new pedidoNotFoundException("Endereço com id " + id + " não encontrado.");
+			throw new pedidoNotFoundException("Endereço com id " + id + " não encontrado.");
 		}
 
 		public List<Pedido> listarPedido() {
@@ -59,7 +61,7 @@ public class PedidoService {
 //			
 //		}
 		
-		public Pedido substituir(Integer id, Pedido pedido) {
+		public Pedido substituir(Integer id, Pedido pedido) throws pedidoNotFoundException {
 			
 			Pedido pedidoNoBanco = listarPedidoPorId(id);
 			

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.serratec.java2.projetoEcommerce.exceptions.clienteNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Cliente;
 import com.serratec.java2.projetoEcommerce.repository.ClienteRepository;
 import com.serratec.java2.projetoEcommerce.repository.EnderecoRepository;
@@ -25,28 +26,27 @@ public class ClienteService {
 		
 	}
 
-	public void deletarCliente(Integer id) {
+	public void deletarCliente(Integer id) throws clienteNotFoundException {
 		Cliente cliente = listarClientesPorId(id);
 		clienteRepository.delete(cliente);
 		
 	}
 
-	public Cliente listarClientesPorId(Integer id) {
+	public Cliente listarClientesPorId(Integer id) throws clienteNotFoundException {
 		Optional<Cliente> opCliente = clienteRepository.findById(id);
 	
 		if(opCliente.isPresent()) {
 			Cliente cliente = opCliente.get();
 			return cliente;
 		}
-		return null;
-		//throw new clienteNotFoundException("cliente com id " + id + " não encontrada");
+		throw new clienteNotFoundException("cliente com id " + id + " não encontrada");
 	}
 
 	public List<Cliente> listarClientes() {
 		return clienteRepository.findAll();
 	}
 
-	public Cliente substituir(Integer id, Cliente cliente) {
+	public Cliente substituir(Integer id, Cliente cliente) throws clienteNotFoundException {
 		
 		Cliente clienteNoBanco = listarClientesPorId(id);
 		

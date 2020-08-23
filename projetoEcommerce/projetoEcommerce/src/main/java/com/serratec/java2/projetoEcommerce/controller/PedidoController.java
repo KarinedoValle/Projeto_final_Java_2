@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.serratec.java2.projetoEcommerce.exceptions.pedidoNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Pedido;
 import com.serratec.java2.projetoEcommerce.service.PedidoService;
 
@@ -37,7 +38,7 @@ public class PedidoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Pedido> listarPedidoPorId(@PathVariable Integer id){
+	public ResponseEntity<Pedido> listarPedidoPorId(@PathVariable Integer id) throws pedidoNotFoundException{
 		Pedido pedido = pedidoService.listarPedidoPorId(id); 
 		return new ResponseEntity<Pedido>(pedido, HttpStatus.OK);
 	}
@@ -50,13 +51,13 @@ public class PedidoController {
 	 
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletarPedido(@PathVariable Integer id){
+	public ResponseEntity<Void> deletarPedido(@PathVariable Integer id) throws pedidoNotFoundException{
 		pedidoService.deletarPedido(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
-	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Pedido pedido) {
+	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Pedido pedido) throws pedidoNotFoundException {
 		pedidoService.substituir(id, pedido);
 	}
 

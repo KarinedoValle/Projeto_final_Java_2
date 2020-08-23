@@ -2,6 +2,8 @@ package com.serratec.java2.projetoEcommerce.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.serratec.java2.projetoEcommerce.exceptions.ValorInvalidoException;
+import com.serratec.java2.projetoEcommerce.exceptions.produtoNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Produto;
 import com.serratec.java2.projetoEcommerce.service.ProdutoService;
 
@@ -32,13 +36,13 @@ public class ProdutoController {
 	ProdutoService produtoService;
 
 	@PostMapping
-	public ResponseEntity<Void> inserirProduto(@RequestBody Produto produto){
+	public ResponseEntity<Void> inserirProduto(@Valid @RequestBody Produto produto) throws ValorInvalidoException{
 		produtoService.inserirProduto(produto);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Produto> listarProdutoPorId(@PathVariable Integer id){
+	public ResponseEntity<Produto> listarProdutoPorId(@PathVariable Integer id) throws produtoNotFoundException{
 		Produto produto = produtoService.listarProdutoPorId(id); 
 		return new ResponseEntity<Produto>(produto, HttpStatus.OK);
 	}
@@ -50,7 +54,7 @@ public class ProdutoController {
 	}
 	
 	@PutMapping("/estoque/{id}")
-	public void atualizarEstoque(@PathVariable Integer id, @RequestBody(required = false) Integer quantidade_estoque) {
+	public void atualizarEstoque(@PathVariable Integer id,@Valid @RequestBody(required = false) Integer quantidade_estoque) throws ValorInvalidoException, produtoNotFoundException {
 		produtoService.atualizarEstoque(id, quantidade_estoque);
 	}
 	
@@ -62,7 +66,7 @@ public class ProdutoController {
 	}
 	
 	@PutMapping("/preco/{id}")
-	public void atualizarPreco(@PathVariable Integer id, @RequestBody(required = false) Double valor) {
+	public void atualizarPreco(@PathVariable Integer id, @Valid @RequestBody(required = false) Double valor) throws ValorInvalidoException, produtoNotFoundException {
 		produtoService.atualizarPreco(id, valor);
 	}
 	
@@ -74,13 +78,13 @@ public class ProdutoController {
 	 
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletarProduto(@PathVariable Integer id){
+	public ResponseEntity<Void> deletarProduto(@PathVariable Integer id) throws produtoNotFoundException{
 		produtoService.deletarProduto(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
-	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Produto produto) {
+	public void substituir(@PathVariable Integer id,@Valid @RequestBody(required = false) Produto produto) throws ValorInvalidoException, produtoNotFoundException {
 		produtoService.substituir(id, produto);
 	}
 

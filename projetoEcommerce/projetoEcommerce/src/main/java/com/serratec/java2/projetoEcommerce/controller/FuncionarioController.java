@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.serratec.java2.projetoEcommerce.exception.FuncionarioNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Funcionario;
 import com.serratec.java2.projetoEcommerce.service.FuncionarioService;
 
@@ -21,40 +22,33 @@ import com.serratec.java2.projetoEcommerce.service.FuncionarioService;
 @RequestMapping("/funcionario")
 public class FuncionarioController {
 
-//		deletar/atualizar/cadastrar funcionario
-	
 	@Autowired
 	FuncionarioService funcionarioService;
-
+	
 	@PostMapping
-	public ResponseEntity<Void> inserirFuncionario(@RequestBody Funcionario funcionario){
-		funcionarioService.inserirFuncionario(funcionario);
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
+	public void criarFuncionario(@RequestBody Funcionario funcionario) {
+		funcionarioService.criarFuncionario(funcionario);
 	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<Funcionario> listarFuncionarioPorId(@PathVariable Integer id){
-		Funcionario funcionario = funcionarioService.listarFuncionarioPorId(id); 
-		return new ResponseEntity<Funcionario>(funcionario, HttpStatus.OK);
-	}
-	
 	
 	@GetMapping
-	public ResponseEntity<List<Funcionario>> listarFuncionarios(){
-		return new ResponseEntity<List<Funcionario>>(funcionarioService.listarFuncionario(), HttpStatus.OK);
-	}
-	 
-	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletarFuncionario(@PathVariable Integer id){
-		funcionarioService.deletarFuncionario(id);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+	public List<Funcionario> listarFuncionarios(){
+		return funcionarioService.listarFuncionarios();
 	}
 	
-	@PutMapping("/{id}")
-	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Funcionario funcionario) {
-		funcionarioService.substituir(id, funcionario);
+	@GetMapping("/{cod}")
+	public Funcionario listarFuncionarioPorCodigo(@PathVariable Integer cod) throws FuncionarioNotFoundException {
+		return funcionarioService.listarFuncionarioPorCodigo(cod);
 	}
 	
-
+	@PutMapping("/{cod}")
+	public void atualizarFuncionario(@PathVariable Integer cod, @RequestBody Funcionario funcionario) throws FuncionarioNotFoundException {
+		funcionarioService.atualizarFuncionario(cod, funcionario);
+	}
+	
+	@DeleteMapping("/{cod}")
+	public void deletarFuncionario(@PathVariable Integer cod) {
+		funcionarioService.deletarFuncionario(cod);
+	}
+	
+	
 }

@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -25,19 +28,29 @@ public class Cliente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codigo;
 	
+	@NotNull
+	@Size(max = 50)
 	@Column(name = "nome", nullable = false, length = 50)
 	private String nome;
 	
+	@NotNull
+	@Size(max = 50)
 	@Column(name = "usuario", nullable = false, length = 50)
 	private String usuario;
 	
+	@NotNull
+	@Size(max = 50)
 	@Column(name = "email", nullable = false, length = 50)
 	private String email;
 	
+	@NotNull
+	@Size(max = 11)
 	@Column(name = "cpf", nullable = false)
-	private Integer cpf;
+	private String cpf;
 	
+	@Past
 	@Column(name = "data_nascimento")
+//	@DateTimeFormat(iso = ISO.DATE)
 	private String data_nascimento;
 	
 	@OneToMany(targetEntity = Pedido.class, mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -49,22 +62,6 @@ public class Cliente {
 	private Endereco endereco;
 	
 	
-	//Construtores
-	public Cliente() {
-		
-	}
-	
-	public Cliente(Integer codigo, String nome, String usuario, String email, Integer cpf, String data_nascimento) {
-		super();
-		this.codigo = codigo;
-		this.nome = nome;
-		this.usuario = usuario;
-		this.email = email;
-		this.cpf = cpf;
-		this.data_nascimento = data_nascimento;
-	}
-	
-
 	//Getters and Setters
 	public Integer getCodigo() {
 		return codigo;
@@ -98,11 +95,11 @@ public class Cliente {
 		this.email = email;
 	}
 
-	public Integer getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(Integer cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
 

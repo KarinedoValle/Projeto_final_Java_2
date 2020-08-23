@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.serratec.java2.projetoEcommerce.exceptions.enderecoNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Endereco;
 import com.serratec.java2.projetoEcommerce.repository.EnderecoRepository;
 
@@ -22,28 +23,27 @@ public class EnderecoService {
 		
 	}
 	
-	public void deletarEndereco(Integer id) {
+	public void deletarEndereco(Integer id) throws enderecoNotFoundException {
 		Endereco endereco = listarEnderecoPorId(id);
 		enderecoRepository.delete(endereco);
 		
 	}
 
-	public Endereco listarEnderecoPorId(Integer id) {
+	public Endereco listarEnderecoPorId(Integer id) throws enderecoNotFoundException {
 		Optional<Endereco> opEndereco = enderecoRepository.findById(id);
 	
 		if(opEndereco.isPresent()) {
 			Endereco endereco = opEndereco.get();
 			return endereco;
 		}
-		return null;
-		//throw new enderecoNotFoundException("Endereço com id " + id + " não encontrado.");
+		throw new enderecoNotFoundException("Endereço com id " + id + " não encontrado.");
 	}
 
 	public List<Endereco> listarEndereco() {
 		return enderecoRepository.findAll();
 	}
 
-	public Endereco substituir(Integer id, Endereco endereco) {
+	public Endereco substituir(Integer id, Endereco endereco) throws enderecoNotFoundException {
 		
 		Endereco enderecoNoBanco = listarEnderecoPorId(id);
 		

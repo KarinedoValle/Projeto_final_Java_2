@@ -2,6 +2,8 @@ package com.serratec.java2.projetoEcommerce.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.serratec.java2.projetoEcommerce.exceptions.clienteNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Cliente;
 import com.serratec.java2.projetoEcommerce.service.ClienteService;
 import com.serratec.java2.projetoEcommerce.service.EnderecoService;
@@ -31,13 +34,13 @@ public class ClienteController {
 
 	
 	@PostMapping
-	public ResponseEntity<Void> inserirCliente(@RequestBody Cliente cliente){
+	public ResponseEntity<Void> inserirCliente(@Valid @RequestBody Cliente cliente){
 		clienteService.inserirCliente(cliente);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Cliente> listarClientesPorId(@PathVariable Integer id){
+	public ResponseEntity<Cliente> listarClientesPorId(@PathVariable Integer id) throws clienteNotFoundException{
 		Cliente cliente = clienteService.listarClientesPorId(id); 
 		return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
 	}
@@ -50,13 +53,13 @@ public class ClienteController {
 	 
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletarCliente(@PathVariable Integer id){
+	public ResponseEntity<Void> deletarCliente(@PathVariable Integer id) throws clienteNotFoundException{
 		clienteService.deletarCliente(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
-	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Cliente cliente) {
+	public void substituir(@PathVariable Integer id,@Valid @RequestBody(required = false) Cliente cliente) throws clienteNotFoundException {
 		clienteService.substituir(id, cliente);
 	}
 	

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.sun.istack.NotNull;
 
@@ -23,52 +24,32 @@ public class Funcionario {
 	private Integer codigo;
 	
 	@NotNull
+	@Size(max = 50)
 	@Column(name = "nome", nullable = false, length = 50)
 	private String nome;
 	
 	@NotNull
+	@Size(min = 11, max = 11)
 	@Column(name = "cpf", nullable = false, length = 11)
-	private Integer cpf;
+	private String cpf;
 	
-	@OneToMany(targetEntity = Produto.class, mappedBy = "funcionario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Produto> produtos;
 	
-	//Construtores
-	public Funcionario() {
-		
-	}
-
-	public Funcionario(Integer codigo, String nome, Integer cpf) {
-		super();
-		this.codigo = codigo;
-		this.nome = nome;
-		this.cpf = cpf;
-	}
-
 	public Integer getCodigo() {
 		return codigo;
 	}
-
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}
-
 	public String getNome() {
 		return nome;
 	}
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	public Integer getCpf() {
+	public String getCpf() {
 		return cpf;
 	}
-
-	public void setCpf(Integer cpf) {
+	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
-	
-
 }

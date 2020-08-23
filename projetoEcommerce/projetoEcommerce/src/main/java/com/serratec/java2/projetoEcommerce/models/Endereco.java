@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "endereco")
@@ -18,49 +20,43 @@ public class Endereco {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codigo;
 	
+	@NotNull
+	@Size(max = 100)
 	@Column(name = "rua", nullable = false, length = 100)
 	private String rua;
 	
+	@NotNull
 	@Column(name = "numero", nullable = false)
 	private Integer numero;
 	
-	@Column(name = "complemento", nullable = false, length = 100)
+	
+	@Size(max = 100)
+	@Column(name = "complemento", length = 100)
 	private String complemento;
 	
+	@NotNull
+	@Size(max = 100)
 	@Column(name = "bairro", nullable = false, length = 100)
 	private String bairro;
 	
+	@NotNull
+	@Size(max = 100)
 	@Column(name = "cidade", nullable = false, length = 100)
 	private String cidade;
 	
+	@NotNull
+	@Size(max = 100)
 	@Column(name = "estado", nullable = false, length = 100)
 	private String estado;
 	
+	@NotNull
 	@Column(name = "cep", nullable = false)
 	private Integer cep;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codigo_cliente" )
+	@JoinColumn(name = "codigo" )
 	private Cliente cliente;
 	
-	
-	//Construtores
-	public Endereco() {
-		
-	}
-
-	public Endereco(Integer codigo, String rua, Integer numero, String complemento, String bairro, String cidade,
-			String estado, Integer cep) {
-		super();
-		this.codigo = codigo;
-		this.rua = rua;
-		this.numero = numero;
-		this.complemento = complemento;
-		this.bairro = bairro;
-		this.cidade = cidade;
-		this.estado = estado;
-		this.cep = cep;
-	}
 
 	
 	//Getters and Setters
