@@ -41,16 +41,16 @@ public class Produto  {
 	private Double valor_unitario;
 	
 	//foreign keys
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "funcionario", referencedColumnName = "codigo")
+	@ManyToOne()
+	@JoinColumn(name = "codigo_funcionario", referencedColumnName = "codigo")
 	private Funcionario funcionario;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "codigo_categoria", referencedColumnName = "codigo")
 	private Categoria categoria;
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "produto_pedido", joinColumns = @JoinColumn (name = "codigo_produto", 
 	referencedColumnName = "codigo"),
 	inverseJoinColumns = @JoinColumn (name = "codigo_pedido", referencedColumnName = "codigo"))

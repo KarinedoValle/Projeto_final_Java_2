@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.serratec.java2.projetoEcommerce.exceptions.pedidoNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Pedido;
+import com.serratec.java2.projetoEcommerce.models.Produto;
+import com.serratec.java2.projetoEcommerce.models.ProdutoPedido;
 import com.serratec.java2.projetoEcommerce.repository.PedidoRepository;
+import com.serratec.java2.projetoEcommerce.repository.ProdutoPedidoRepository;
 import com.serratec.java2.projetoEcommerce.repository.ProdutoRepository;
 
 @Service
@@ -22,9 +25,13 @@ public class PedidoService {
 		PedidoRepository pedidoRepository;
 		@Autowired
 		ProdutoRepository produtoRepository;
+		@Autowired
+		ProdutoPedidoRepository produtoPedidoRepository;
 		
-		public void inserirPedido(Pedido pedido) {
+		public void inserirPedido(Pedido pedido, ProdutoPedido pp, List<ProdutoPedido> listaPP) {
 			pedidoRepository.save(pedido);
+			listaPP.add(pp);
+			produtoPedidoRepository.saveAll(listaPP);
 			
 		}
 		
@@ -49,19 +56,16 @@ public class PedidoService {
 		}
 
 //		public void calcularValorTotal(Integer id) {
-//			Optional<Pedido> opPedido = pedidoRepository.findById(id);
-//			Pedido pedido = opPedido.get();
+//			List<ProdutoPedido> listaPP = produtoPedidoRepository.findByCodigo_pedido(id);
+//			List<Produto> listaProd = produtoRepository.findAll();
+//			Pedido p = null;
 //			
-//			pedido.getCodigo_produto();
-//			ProdutoPedido produto = listarProdutoPorId(id); 
-//			pedido.getQuantidade_itens() * pedido.get
-//
-//
-//			pedido.setValor_total(valor);
-//			
+//			for(int i = 0; i < listaPP.size(); i++) {
+////				Integer codProd = listaPP.get(i);
+//			}
 //		}
 		
-		public Pedido substituir(Integer id, Pedido pedido) throws pedidoNotFoundException {
+		public Pedido substituir(Integer id, Pedido pedido, ProdutoPedido pp) throws pedidoNotFoundException {
 			
 			Pedido pedidoNoBanco = listarPedidoPorId(id);
 			
@@ -80,8 +84,20 @@ public class PedidoService {
 			
 			Pedido novoPedido = pedidoRepository.save(pedidoNoBanco);
 			
+			List<ProdutoPedido> PP = produtoPedidoRepository.findByCodigo_pedido(id);
+			
+//			if(pp.getQuantidade_itens() != null) {
+//				ppNoDB.setQuantidade_itens(pp.getQuantidade_itens());
+//			}
+//			
+//			produtoPedidoRepository.save(ppNoDB);
+			
 			return novoPedido;
 			
 	}
+
+		public List<ProdutoPedido> listarTudoDoPedido(Integer id) throws pedidoNotFoundException {
+			return produtoPedidoRepository.findByCodigo_pedido(id);
+		}
 
 }

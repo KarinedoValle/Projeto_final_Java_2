@@ -33,6 +33,9 @@ public class Funcionario {
 	@Column(name = "cpf", nullable = false, length = 11)
 	private String cpf;
 	
+	@OneToMany(targetEntity = Produto.class, mappedBy = "funcionario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Produto> produtos;
+	
 	
 	public Integer getCodigo() {
 		return codigo;

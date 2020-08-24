@@ -1,5 +1,6 @@
 package com.serratec.java2.projetoEcommerce.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -53,11 +54,9 @@ public class Endereco {
 	@Column(name = "cep", nullable = false)
 	private Integer cep;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codigo" )
-	private Cliente cliente;
 	
-
+	@OneToOne(targetEntity = Cliente.class, mappedBy = "endereco", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Cliente cliente;
 	
 	//Getters and Setters
 	public Integer getCodigo() {

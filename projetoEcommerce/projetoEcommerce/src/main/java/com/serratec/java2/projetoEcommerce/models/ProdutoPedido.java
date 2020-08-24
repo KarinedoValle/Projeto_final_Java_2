@@ -29,19 +29,6 @@ public class ProdutoPedido {
 	
 	//Foreign keys
 
-	 
-
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinTable(name = "produto", joinColumns = @JoinColumn (name = "codigo_produto", 
-//            referencedColumnName = "codigo"))
-//    private Produto produto;
-//    
-//
-// 
-//
-//    @JoinTable(name = "produto", joinColumns = @JoinColumn (name = "codigo_produto", 
-//            referencedColumnName = "codigo"))
-//    private Pedido pedido;
 	
 	//Getters and Setters
 	public Integer getCodigo() {

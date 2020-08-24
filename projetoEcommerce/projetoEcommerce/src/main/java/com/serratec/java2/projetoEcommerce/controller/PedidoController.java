@@ -1,5 +1,6 @@
 package com.serratec.java2.projetoEcommerce.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.serratec.java2.projetoEcommerce.exceptions.pedidoNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Pedido;
+import com.serratec.java2.projetoEcommerce.models.ProdutoPedido;
 import com.serratec.java2.projetoEcommerce.service.PedidoService;
 
 @RestController
@@ -31,9 +33,11 @@ public class PedidoController {
 	@Autowired
 	PedidoService pedidoService;
 
+	List<ProdutoPedido> listaPP = new ArrayList<>();
+	
 	@PostMapping
-	public ResponseEntity<Void> inserirPedido(@RequestBody Pedido pedido){
-		pedidoService.inserirPedido(pedido);
+	public ResponseEntity<Void> inserirPedido(@RequestBody Pedido pedido, @RequestBody ProdutoPedido pp, @RequestBody List<ProdutoPedido> listaPP){
+		pedidoService.inserirPedido(pedido, pp, listaPP);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
@@ -41,6 +45,12 @@ public class PedidoController {
 	public ResponseEntity<Pedido> listarPedidoPorId(@PathVariable Integer id) throws pedidoNotFoundException{
 		Pedido pedido = pedidoService.listarPedidoPorId(id); 
 		return new ResponseEntity<Pedido>(pedido, HttpStatus.OK);
+	}
+	
+	@GetMapping("/produtospedidos/{id}")
+	public ResponseEntity<List<ProdutoPedido>> listarTudoDoPedido(@PathVariable Integer id) throws pedidoNotFoundException{
+		List<ProdutoPedido> pp = pedidoService.listarTudoDoPedido(id);
+		return new ResponseEntity<List<ProdutoPedido>>(pp, HttpStatus.OK);
 	}
 	
 	
@@ -57,8 +67,8 @@ public class PedidoController {
 	}
 	
 	@PutMapping("/{id}")
-	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Pedido pedido) throws pedidoNotFoundException {
-		pedidoService.substituir(id, pedido);
+	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Pedido pedido, @RequestBody(required = false) ProdutoPedido pp) throws pedidoNotFoundException {
+		pedidoService.substituir(id, pedido, pp);
 	}
 
 }

@@ -38,14 +38,16 @@ public class Pedido extends ProdutoPedido {
 	@Column(name = "valor_total", nullable = false)
 	private Integer valor_total;
 	
+//	@Column(name = "codigo_cliente", insertable = false, updatable = false)
+//	private Integer codigo_cliente;
+	
 	//Foreing key
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn (name = "codigo_cliente", 
-	referencedColumnName = "codigo")
+	@ManyToOne()
+	@JoinColumn (name = "codigo_cliente", referencedColumnName = "codigo")
 	private Cliente cliente;
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "produto_pedido", joinColumns = @JoinColumn (name = "codigo_pedido", 
 	referencedColumnName = "codigo"),
 	inverseJoinColumns = @JoinColumn (name = "codigo_produto", referencedColumnName = "codigo"))
