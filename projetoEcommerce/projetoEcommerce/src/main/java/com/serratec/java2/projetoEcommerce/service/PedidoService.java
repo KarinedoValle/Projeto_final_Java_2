@@ -118,9 +118,9 @@ public class PedidoService {
 				
 				for(int k = 0; k < ppOutraLista.size(); k++) {
 					Pedido pedido1 = new Pedido();
-					pedido1 = ppOutraLista.get(i).getPedido();
+					pedido1 = ppOutraLista.get(k).getPedido();
 					if(pedido1.getCodigo() == codPed) {
-						pp = ppOutraLista.get(i);
+						pp = ppOutraLista.get(k);
 					}
 				}
 				
@@ -128,7 +128,8 @@ public class PedidoService {
 				for(int j = 0; j < ppOutraLista.size(); j++) {
 					List<ProdutoPedidoForm> ppFList = new ArrayList<>();
 					ProdutoPedidoForm ppForm = new ProdutoPedidoForm();
-					Produto produto = pp.getProduto();
+					Produto produto = new Produto();
+					produto = pp.getProduto();
 					Integer codProd = produto.getCodigo();
 					String nome = produto.getNome();
 					Integer qtd = pp.getQuantidade_itens();
