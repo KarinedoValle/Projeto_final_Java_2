@@ -3,13 +3,11 @@ package com.serratec.java2.projetoEcommerce.models;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,6 +26,13 @@ public class ProdutoPedido {
 	private Integer quantidade_itens;
 	
 	//Foreign keys
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "codigo_produto", referencedColumnName = "codigo")
+	private Produto produto;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "codigo_pedido", referencedColumnName = "codigo")
+	private Pedido pedido;
 
 	
 	//Getters and Setters
@@ -48,6 +53,26 @@ public class ProdutoPedido {
 
 	public void setQuantidade_itens(Integer quantidade_itens) {
 		this.quantidade_itens = quantidade_itens;
+	}
+
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}
+
+
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
 
 

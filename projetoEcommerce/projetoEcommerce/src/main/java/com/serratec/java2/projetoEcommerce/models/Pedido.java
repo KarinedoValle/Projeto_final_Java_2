@@ -1,6 +1,5 @@
 package com.serratec.java2.projetoEcommerce.models;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,14 +16,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name = "pedido")
-public class Pedido extends ProdutoPedido {
+public class Pedido {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +31,8 @@ public class Pedido extends ProdutoPedido {
 	
 	@NotNull
 	@Column(name = "valor_total", nullable = false)
-	private Integer valor_total;
+	private Double valor_total;
 	
-//	@Column(name = "codigo_cliente", insertable = false, updatable = false)
-//	private Integer codigo_cliente;
 	
 	//Foreing key
 	@ManyToOne()
@@ -47,11 +40,8 @@ public class Pedido extends ProdutoPedido {
 	private Cliente cliente;
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "produto_pedido", joinColumns = @JoinColumn (name = "codigo_pedido", 
-	referencedColumnName = "codigo"),
-	inverseJoinColumns = @JoinColumn (name = "codigo_produto", referencedColumnName = "codigo"))
-	private List<Produto> codigoProduto;
+	@OneToMany(targetEntity = ProdutoPedido.class, mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<ProdutoPedido> ListPedidoProduto;
 	
 	
 	//Getters and Setters
@@ -71,12 +61,28 @@ public class Pedido extends ProdutoPedido {
 		this.data_pedido = data_pedido;
 	}
 
-	public Integer getValor_total() {
+	public Double getValor_total() {
 		return valor_total;
 	}
 
-	public void setValor_total(Integer valor_total) {
+	public void setValor_total(Double valor_total) {
 		this.valor_total = valor_total;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public List<ProdutoPedido> getListPedidoProduto() {
+		return ListPedidoProduto;
+	}
+
+	public void setListPedidoProduto(List<ProdutoPedido> listPedidoProduto) {
+		ListPedidoProduto = listPedidoProduto;
 	}
 
 	

@@ -3,14 +3,16 @@ package com.serratec.java2.projetoEcommerce.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.serratec.java2.projetoEcommerce.exceptions.ValorInvalidoException;
 import com.serratec.java2.projetoEcommerce.exceptions.produtoNotFoundException;
+import com.serratec.java2.projetoEcommerce.forms.ProdutoForm;
 import com.serratec.java2.projetoEcommerce.models.Produto;
+import com.serratec.java2.projetoEcommerce.repository.ProdutoFormRepository;
 import com.serratec.java2.projetoEcommerce.repository.ProdutoRepository;
 
 @Service
@@ -22,15 +24,15 @@ public class ProdutoService {
 
 	@Autowired
 	ProdutoRepository produtoRepository;
+	@Autowired
+	ProdutoFormRepository produtoFormRepository;
 
-	public void inserirProduto(Produto produto) throws ValorInvalidoException {
+	public void inserirProduto(@Valid ProdutoForm produto) throws ValorInvalidoException {
 		
 		if(produto.getValor_unitario() <= 0) {
 			throw new ValorInvalidoException("Não são permitidos valores menores que 0");
 		}
-		
-		
-		produtoRepository.save(produto);
+		produtoFormRepository.save(produto);
 
 	}
 

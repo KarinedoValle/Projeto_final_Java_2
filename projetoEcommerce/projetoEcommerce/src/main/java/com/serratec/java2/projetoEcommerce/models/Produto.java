@@ -10,9 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Past;
 
@@ -50,12 +49,9 @@ public class Produto  {
 	private Categoria categoria;
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "produto_pedido", joinColumns = @JoinColumn (name = "codigo_produto", 
-	referencedColumnName = "codigo"),
-	inverseJoinColumns = @JoinColumn (name = "codigo_pedido", referencedColumnName = "codigo"))
-	private List<Pedido> codigoPedido;
-//	
+	@OneToMany(targetEntity = ProdutoPedido.class, mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<ProdutoPedido> ListProdutoPedido;
+
 
 	//Construtores
 	public Produto() {
@@ -134,4 +130,33 @@ public class Produto  {
 		this.valor_unitario = valor_unitario;
 	}
 
+
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
+
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+
+	public List<ProdutoPedido> getListProdutoPedido() {
+		return ListProdutoPedido;
+	}
+
+
+	public void setListProdutoPedido(List<ProdutoPedido> listProdutoPedido) {
+		ListProdutoPedido = listProdutoPedido;
+	}
 }

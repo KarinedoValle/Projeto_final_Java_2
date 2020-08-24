@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.serratec.java2.projetoEcommerce.exception.FuncionarioNotFoundException;
+import com.serratec.java2.projetoEcommerce.exceptions.FuncionarioNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Funcionario;
 import com.serratec.java2.projetoEcommerce.service.FuncionarioService;
 

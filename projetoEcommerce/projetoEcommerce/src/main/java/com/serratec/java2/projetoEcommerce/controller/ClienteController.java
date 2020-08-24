@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.serratec.java2.projetoEcommerce.exceptions.clienteNotFoundException;
+import com.serratec.java2.projetoEcommerce.forms.ClienteForm;
 import com.serratec.java2.projetoEcommerce.models.Cliente;
 import com.serratec.java2.projetoEcommerce.service.ClienteService;
 import com.serratec.java2.projetoEcommerce.service.EnderecoService;
@@ -34,7 +35,7 @@ public class ClienteController {
 
 	
 	@PostMapping
-	public ResponseEntity<Void> inserirCliente(@Valid @RequestBody Cliente cliente){
+	public ResponseEntity<Void> inserirCliente(@Valid @RequestBody ClienteForm cliente){
 		clienteService.inserirCliente(cliente);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}

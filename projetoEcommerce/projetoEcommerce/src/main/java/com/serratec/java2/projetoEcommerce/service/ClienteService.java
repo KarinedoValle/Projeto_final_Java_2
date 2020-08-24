@@ -3,11 +3,15 @@ package com.serratec.java2.projetoEcommerce.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.serratec.java2.projetoEcommerce.exceptions.clienteNotFoundException;
+import com.serratec.java2.projetoEcommerce.forms.ClienteForm;
 import com.serratec.java2.projetoEcommerce.models.Cliente;
+import com.serratec.java2.projetoEcommerce.repository.ClienteFormRepository;
 import com.serratec.java2.projetoEcommerce.repository.ClienteRepository;
 import com.serratec.java2.projetoEcommerce.repository.EnderecoRepository;
 
@@ -20,9 +24,11 @@ public class ClienteService {
 	ClienteRepository clienteRepository;
 	@Autowired
 	EnderecoRepository enderecoRepository;
+	@Autowired
+	ClienteFormRepository clienteFormRepository;
 	
-	public void inserirCliente(Cliente cliente) {
-		clienteRepository.save(cliente);
+	public void inserirCliente(@Valid ClienteForm cliente) {
+		clienteFormRepository.save(cliente);
 		
 	}
 
@@ -46,7 +52,7 @@ public class ClienteService {
 		return clienteRepository.findAll();
 	}
 
-	public Cliente substituir(Integer id, Cliente cliente) throws clienteNotFoundException {
+	public Cliente substituir(Integer id, @Valid Cliente cliente) throws clienteNotFoundException {
 		
 		Cliente clienteNoBanco = listarClientesPorId(id);
 		

@@ -1,4 +1,4 @@
-package com.serratec.java2.projetoEcommerce.exception;
+package com.serratec.java2.projetoEcommerce.exceptions;
 
 public class FuncionarioNotFoundException extends Exception {
 

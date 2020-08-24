@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.serratec.java2.projetoEcommerce.exceptions.ValorInvalidoException;
 import com.serratec.java2.projetoEcommerce.exceptions.produtoNotFoundException;
+import com.serratec.java2.projetoEcommerce.forms.ProdutoForm;
 import com.serratec.java2.projetoEcommerce.models.Produto;
 import com.serratec.java2.projetoEcommerce.service.ProdutoService;
 
@@ -36,7 +37,7 @@ public class ProdutoController {
 	ProdutoService produtoService;
 
 	@PostMapping
-	public ResponseEntity<Void> inserirProduto(@Valid @RequestBody Produto produto) throws ValorInvalidoException{
+	public ResponseEntity<Void> inserirProduto(@Valid @RequestBody ProdutoForm produto) throws ValorInvalidoException{
 		produtoService.inserirProduto(produto);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}

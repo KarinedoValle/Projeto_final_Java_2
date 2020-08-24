@@ -1,5 +1,6 @@
 package com.serratec.java2.projetoEcommerce.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.serratec.java2.projetoEcommerce.exceptions.pedidoNotFoundException;
+import com.serratec.java2.projetoEcommerce.forms.PedidoForm;
+import com.serratec.java2.projetoEcommerce.forms.ProdutoPedidoForm;
+import com.serratec.java2.projetoEcommerce.models.Cliente;
 import com.serratec.java2.projetoEcommerce.models.Pedido;
 import com.serratec.java2.projetoEcommerce.models.Produto;
 import com.serratec.java2.projetoEcommerce.models.ProdutoPedido;
+import com.serratec.java2.projetoEcommerce.repository.ClienteRepository;
 import com.serratec.java2.projetoEcommerce.repository.PedidoRepository;
 import com.serratec.java2.projetoEcommerce.repository.ProdutoPedidoRepository;
 import com.serratec.java2.projetoEcommerce.repository.ProdutoRepository;
@@ -27,11 +32,49 @@ public class PedidoService {
 		ProdutoRepository produtoRepository;
 		@Autowired
 		ProdutoPedidoRepository produtoPedidoRepository;
+		@Autowired
+		ClienteRepository clienteRepository;
 		
-		public void inserirPedido(Pedido pedido, ProdutoPedido pp, List<ProdutoPedido> listaPP) {
+		public void inserirPedido(PedidoForm pedidoForm) {
+			Pedido pedido = null;
+			Double valorTotal = 0.0;
+			List<ProdutoPedido> ppList = new ArrayList<>();
+			ProdutoPedido pp = null;
+			
+			//Fazer a busca do cliente
+			Integer codCliente = pedidoForm.getCodigo_cliente(); 
+			Optional <Cliente> opCliente =  clienteRepository.findById(codCliente);
+			Cliente cliente = opCliente.get();
+			pedido.setCliente(cliente);
+			
+			//Data do Pedido
+			pedido.setData_pedido(pedidoForm.getData_pedido());
+			
+			//Passar de form para produtoPedido
+			for(int i = 0; i < pedidoForm.getProdutosPedidos().size(); i++) {
+				
+				ProdutoPedidoForm ppForm = pedidoForm.getProdutosPedidos().get(i);
+				
+				Integer codProd = ppForm.getCodigo_produto();
+				Optional <Produto> opProd =  produtoRepository.findById(codProd);
+				Produto produto = opProd.get();
+				Double valorUnitario = produto.getValor_unitario();
+				Integer qtItens = ppForm.getQuantidade_itens();
+				
+				Double subtotal = valorUnitario * qtItens;
+				valorTotal +=  subtotal;
+				
+				pp.setProduto(produto);
+				pp.setPedido(pedido);
+				pp.setQuantidade_itens(qtItens);
+				
+				ppList.add(pp);
+				produtoPedidoRepository.save(pp);
+			}
+
+			pedido.setListPedidoProduto(ppList);
+			pedido.setValor_total(valorTotal);
 			pedidoRepository.save(pedido);
-			listaPP.add(pp);
-			produtoPedidoRepository.saveAll(listaPP);
 			
 		}
 		
@@ -55,49 +98,5 @@ public class PedidoService {
 			return pedidoRepository.findAll();
 		}
 
-//		public void calcularValorTotal(Integer id) {
-//			List<ProdutoPedido> listaPP = produtoPedidoRepository.findByCodigo_pedido(id);
-//			List<Produto> listaProd = produtoRepository.findAll();
-//			Pedido p = null;
-//			
-//			for(int i = 0; i < listaPP.size(); i++) {
-////				Integer codProd = listaPP.get(i);
-//			}
-//		}
-		
-		public Pedido substituir(Integer id, Pedido pedido, ProdutoPedido pp) throws pedidoNotFoundException {
-			
-			Pedido pedidoNoBanco = listarPedidoPorId(id);
-			
-			if (pedido.getData_pedido() != null) {
-				pedidoNoBanco.setData_pedido(pedido.getData_pedido());
-			}
-
-			//Trazer o cálculo para o valor total
-			if (pedido.getValor_total() != null) {
-				pedidoNoBanco.setValor_total(pedido.getValor_total());
-			}
-
-//			if (pedido.getCodigo_cliente() != null) {
-//				pedidoNoBanco.setCodigo_cliente(pedido.getCodigo_cliente());
-//			}
-			
-			Pedido novoPedido = pedidoRepository.save(pedidoNoBanco);
-			
-			List<ProdutoPedido> PP = produtoPedidoRepository.findByCodigo_pedido(id);
-			
-//			if(pp.getQuantidade_itens() != null) {
-//				ppNoDB.setQuantidade_itens(pp.getQuantidade_itens());
-//			}
-//			
-//			produtoPedidoRepository.save(ppNoDB);
-			
-			return novoPedido;
-			
-	}
-
-		public List<ProdutoPedido> listarTudoDoPedido(Integer id) throws pedidoNotFoundException {
-			return produtoPedidoRepository.findByCodigo_pedido(id);
-		}
 
 }

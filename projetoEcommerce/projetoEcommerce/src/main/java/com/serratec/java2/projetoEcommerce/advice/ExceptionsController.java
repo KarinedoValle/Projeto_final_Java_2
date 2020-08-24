@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import com.serratec.java2.projetoEcommerce.exception.FuncionarioNotFoundException;
 import com.serratec.java2.projetoEcommerce.exceptions.CategoriaNotFoundException;
+import com.serratec.java2.projetoEcommerce.exceptions.FuncionarioNotFoundException;
 import com.serratec.java2.projetoEcommerce.exceptions.ValorInvalidoException;
 import com.serratec.java2.projetoEcommerce.exceptions.clienteNotFoundException;
 import com.serratec.java2.projetoEcommerce.exceptions.enderecoNotFoundException;
