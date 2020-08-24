@@ -1,5 +1,6 @@
 package com.serratec.java2.projetoEcommerce.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,8 +12,11 @@ import org.springframework.stereotype.Service;
 import com.serratec.java2.projetoEcommerce.exceptions.ValorInvalidoException;
 import com.serratec.java2.projetoEcommerce.exceptions.produtoNotFoundException;
 import com.serratec.java2.projetoEcommerce.forms.ProdutoForm;
+import com.serratec.java2.projetoEcommerce.models.Categoria;
+import com.serratec.java2.projetoEcommerce.models.Funcionario;
 import com.serratec.java2.projetoEcommerce.models.Produto;
-import com.serratec.java2.projetoEcommerce.repository.ProdutoFormRepository;
+import com.serratec.java2.projetoEcommerce.repository.CategoriaRepository;
+import com.serratec.java2.projetoEcommerce.repository.FuncionarioRepository;
 import com.serratec.java2.projetoEcommerce.repository.ProdutoRepository;
 
 @Service
@@ -24,15 +28,47 @@ public class ProdutoService {
 
 	@Autowired
 	ProdutoRepository produtoRepository;
+	
 	@Autowired
-	ProdutoFormRepository produtoFormRepository;
+	CategoriaRepository categoriaRepository;
+	
+	@Autowired
+	FuncionarioRepository funcionarioRepository;
+	
 
-	public void inserirProduto(@Valid ProdutoForm produto) throws ValorInvalidoException {
+	public void inserirProduto(@Valid ProdutoForm produtoForm) throws ValorInvalidoException {
+		Produto produto = new Produto();
+		
+		//Categoria
+		Integer codCat = produtoForm.getCodigo_categoria();
+		Optional <Categoria> opCat = categoriaRepository.findById(codCat);
+		
+//		Testar se a categoria existe 
+//		if(!opCat.isPresent()) {
+//			throw new ValorInvalidoException("Não são permitidos valores menores que 0");
+//		}
+		
+		Categoria categoria = opCat.get();
+		produto.setCategoria(categoria);
+		
+		//Funcionario
+		Integer codFun = produtoForm.getCodigo_funcionario();
+		Optional <Funcionario> opFun = funcionarioRepository.findById(codFun);
+		Funcionario funcionario = opFun.get();
+		produto.setFuncionario(funcionario);
+		
+		
+		produto.setData_fabricacao(produtoForm.getData_fabricacao());
+		produto.setDescricao(produtoForm.getDescricao());
+		produto.setNome(produtoForm.getNome());
+		produto.setValor_unitario(produtoForm.getValor_unitario());
+		produto.setQuantidade_estoque(produtoForm.getQuantidade_estoque());
+		
 		
 		if(produto.getValor_unitario() <= 0) {
 			throw new ValorInvalidoException("Não são permitidos valores menores que 0");
 		}
-		produtoFormRepository.save(produto);
+		produtoRepository.save(produto);
 
 	}
 
@@ -52,8 +88,33 @@ public class ProdutoService {
 		 throw new produtoNotFoundException("Produto com id " + id + " não encontrado.");
 	}
 
-	public List<Produto> listarProdutos() {
-		return produtoRepository.findAll();
+	public List<ProdutoForm> listarProdutos() {
+		List<ProdutoForm> pFormSet = new ArrayList<>();
+		List<Produto> pList = produtoRepository.findAll();
+		
+		for(int i = 0; i < pList.size(); i++) {
+			ProdutoForm pForm = new ProdutoForm();
+			Categoria categoria = new Categoria();
+			Funcionario funcionario = new Funcionario();
+			Produto produto = new Produto();
+			
+			produto = pList.get(i);
+			categoria = produto.getCategoria();
+			pForm.setCodigo(produto.getCodigo());
+			pForm.setCodigo_categoria(categoria.getCodigo());
+			pForm.setNome_categoria(categoria.getNome());
+			funcionario = produto.getFuncionario();
+			pForm.setCodigo_funcionario(funcionario.getCodigo());
+			pForm.setNome_funcionario(funcionario.getNome());
+			pForm.setNome(produto.getNome());
+			pForm.setDescricao(produto.getDescricao());
+			pForm.setData_fabricacao(produto.getData_fabricacao());
+			pForm.setQuantidade_estoque(produto.getQuantidade_estoque());
+			pForm.setValor_unitario(produto.getValor_unitario());
+			
+			pFormSet.add(pForm);
+		}
+		return pFormSet;
 	}
 
 	public Double consultarPreco(Integer id) {

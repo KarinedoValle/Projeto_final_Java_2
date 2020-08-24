@@ -1,19 +1,10 @@
 package com.serratec.java2.projetoEcommerce.forms;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
-@Entity
-@Table(name = "produto")
 public class ProdutoForm {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer codigo;
 	
 	@NotNull
@@ -35,19 +26,15 @@ public class ProdutoForm {
 	@NotNull
 	private Integer codigo_funcionario;
 	
+	private String nome_funcionario;
+	
 	@NotNull
 	private Integer codigo_categoria;
+	
+	private String nome_categoria;
 
 	
 	//Getters and Setters
-	public Integer getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
-	}
-
 	public String getNome() {
 		return nome;
 	}
@@ -103,5 +90,31 @@ public class ProdutoForm {
 	public void setCodigo_categoria(Integer codigo_categoria) {
 		this.codigo_categoria = codigo_categoria;
 	}
+
+	public String getNome_funcionario() {
+		return nome_funcionario;
+	}
+
+	public void setNome_funcionario(String nome_funcionario) {
+		this.nome_funcionario = nome_funcionario;
+	}
+
+	public String getNome_categoria() {
+		return nome_categoria;
+	}
+
+	public void setNome_categoria(String nome_categoria) {
+		this.nome_categoria = nome_categoria;
+	}
+
+	public Integer getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
+	}
+	
+	
 	
 }

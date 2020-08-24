@@ -36,7 +36,8 @@ public class PedidoService {
 		ClienteRepository clienteRepository;
 		
 		public void inserirPedido(PedidoForm pedidoForm) {
-			Pedido pedido = null;
+			Pedido pedido = new Pedido();
+			
 			Double valorTotal = 0.0;
 			List<ProdutoPedido> ppList = new ArrayList<>();
 			ProdutoPedido pp = null;
@@ -94,8 +95,57 @@ public class PedidoService {
 			throw new pedidoNotFoundException("Endereço com id " + id + " não encontrado.");
 		}
 
-		public List<Pedido> listarPedido() {
-			return pedidoRepository.findAll();
+		public List<PedidoForm> listarPedido() {
+			List<Pedido> peList = pedidoRepository.findAll();
+			List<PedidoForm> peFormList = new ArrayList<>();
+			
+			for(int i = 0; i< peList.size(); i++) {
+				Pedido pedido = peList.get(i);
+				PedidoForm peForm = new PedidoForm();
+				Cliente cliente = new Cliente();
+				ProdutoPedido pp = new ProdutoPedido();
+				cliente = pedido.getCliente();
+				peForm.setCodigo_cliente(cliente.getCodigo());
+				peForm.setCliente_nome(cliente.getNome());
+				peForm.setData_pedido(pedido.getData_pedido());
+				peForm.setValor_total(pedido.getValor_total());
+				Integer codPed = pedido.getCodigo();
+				peForm.setCodigo(codPed);
+				
+				
+				List<ProdutoPedido> ppOutraLista = new ArrayList<>() ;
+				ppOutraLista = produtoPedidoRepository.findAll();
+				
+				for(int k = 0; k < ppOutraLista.size(); k++) {
+					Pedido pedido1 = new Pedido();
+					pedido1 = ppOutraLista.get(i).getPedido();
+					if(pedido1.getCodigo() == codPed) {
+						pp = ppOutraLista.get(i);
+					}
+				}
+				
+				
+				for(int j = 0; j < ppOutraLista.size(); j++) {
+					List<ProdutoPedidoForm> ppFList = new ArrayList<>();
+					ProdutoPedidoForm ppForm = new ProdutoPedidoForm();
+					Produto produto = pp.getProduto();
+					Integer codProd = produto.getCodigo();
+					String nome = produto.getNome();
+					Integer qtd = pp.getQuantidade_itens();
+					ppForm.setCodigo_produto(codProd);
+					ppForm.setProduto_nome(nome);
+					ppForm.setQuantidade_itens(qtd);
+					ppForm.setValor_unitario(produto.getValor_unitario());
+					
+					ppFList.add(ppForm);
+	
+					peForm.setProdutosPedidos(ppFList);
+				}
+				
+				peFormList.add(peForm);
+			}
+			
+			return peFormList;
 		}
 
 

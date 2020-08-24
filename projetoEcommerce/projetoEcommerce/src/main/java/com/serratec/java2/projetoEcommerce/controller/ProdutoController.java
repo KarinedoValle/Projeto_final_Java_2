@@ -1,6 +1,7 @@
 package com.serratec.java2.projetoEcommerce.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -37,8 +38,8 @@ public class ProdutoController {
 	ProdutoService produtoService;
 
 	@PostMapping
-	public ResponseEntity<Void> inserirProduto(@Valid @RequestBody ProdutoForm produto) throws ValorInvalidoException{
-		produtoService.inserirProduto(produto);
+	public ResponseEntity<Void> inserirProduto(@Valid @RequestBody ProdutoForm produtoForm) throws ValorInvalidoException{
+		produtoService.inserirProduto(produtoForm);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
@@ -73,8 +74,9 @@ public class ProdutoController {
 	
 
 	@GetMapping
-	public ResponseEntity<List<Produto>> listarProdutos(){
-		return new ResponseEntity<List<Produto>>(produtoService.listarProdutos(), HttpStatus.OK);
+	public ResponseEntity<List<ProdutoForm>> listarProdutos(){
+		List<ProdutoForm> pFormSet = produtoService.listarProdutos();
+		return new ResponseEntity<List<ProdutoForm>>(pFormSet, HttpStatus.OK);
 	}
 	 
 	

@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -36,6 +37,7 @@ public class Cliente {
 	private String usuario;
 	
 	@NotNull
+	@Email
 	@Size(max = 50)
 	@Column(name = "email", nullable = false, length = 50)
 	private String email;
@@ -110,4 +112,22 @@ public class Cliente {
 		this.data_nascimento = data_nascimento;
 	}
 
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+	
+
+	
 }

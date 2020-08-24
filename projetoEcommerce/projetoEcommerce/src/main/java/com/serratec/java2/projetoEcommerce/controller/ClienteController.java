@@ -1,6 +1,7 @@
 package com.serratec.java2.projetoEcommerce.controller;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -35,8 +36,8 @@ public class ClienteController {
 
 	
 	@PostMapping
-	public ResponseEntity<Void> inserirCliente(@Valid @RequestBody ClienteForm cliente){
-		clienteService.inserirCliente(cliente);
+	public ResponseEntity<Void> inserirCliente(@Valid @RequestBody ClienteForm clienteForm){
+		clienteService.inserirCliente(clienteForm);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
@@ -48,8 +49,10 @@ public class ClienteController {
 	
 	
 	@GetMapping
-	public ResponseEntity<List<Cliente>> listarClientes(){
-		return new ResponseEntity<List<Cliente>>(clienteService.listarClientes(), HttpStatus.OK);
+	public ResponseEntity<Set<ClienteForm>> listarClientes(){
+		Set<ClienteForm> clienteSet = new HashSet<>();
+		clienteSet = clienteService.listarClientes();
+		return new ResponseEntity<Set<ClienteForm>>(clienteSet, HttpStatus.OK);
 	}
 	 
 	

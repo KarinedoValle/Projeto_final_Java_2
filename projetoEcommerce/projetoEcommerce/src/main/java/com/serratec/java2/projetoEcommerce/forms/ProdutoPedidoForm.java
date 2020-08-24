@@ -1,20 +1,9 @@
 package com.serratec.java2.projetoEcommerce.forms;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "produto_pedido")
 public class ProdutoPedidoForm {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer codigo;
 	
 	@NotNull
 	@Size(max = 50)
@@ -22,17 +11,14 @@ public class ProdutoPedidoForm {
 	
 	@NotNull
 	private Integer codigo_produto;
-
+	
+	private String produto_nome;
+	
+	
+	private Double valor_unitario;
+	
 	
 	//Getters and Setters
-	public Integer getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
-	}
-
 	public Integer getQuantidade_itens() {
 		return quantidade_itens;
 	}
@@ -47,6 +33,22 @@ public class ProdutoPedidoForm {
 
 	public void setCodigo_produto(Integer codigo_produto) {
 		this.codigo_produto = codigo_produto;
+	}
+
+	public String getProduto_nome() {
+		return produto_nome;
+	}
+
+	public void setProduto_nome(String produto_nome) {
+		this.produto_nome = produto_nome;
+	}
+
+	public Double getValor_unitario() {
+		return valor_unitario;
+	}
+
+	public void setValor_unitario(Double valor_unitario) {
+		this.valor_unitario = valor_unitario;
 	}
 
 	

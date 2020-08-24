@@ -52,8 +52,8 @@ public class PedidoController {
 	
 	
 	@GetMapping
-	public ResponseEntity<List<Pedido>> listarPedidos(){
-		return new ResponseEntity<List<Pedido>>(pedidoService.listarPedido(), HttpStatus.OK);
+	public ResponseEntity<List<PedidoForm>> listarPedidos(){
+		return new ResponseEntity<List<PedidoForm>>(pedidoService.listarPedido(), HttpStatus.OK);
 	}
 	 
 	
