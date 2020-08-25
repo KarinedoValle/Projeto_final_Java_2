@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.serratec.java2.projetoEcommerce.exceptions.ParametroObrigatorioException;
 import com.serratec.java2.projetoEcommerce.exceptions.pedidoNotFoundException;
 import com.serratec.java2.projetoEcommerce.forms.PedidoForm;
 import com.serratec.java2.projetoEcommerce.forms.ProdutoPedidoForm;
@@ -35,64 +36,81 @@ public class PedidoService {
 		@Autowired
 		ClienteRepository clienteRepository;
 		
-		public void inserirPedido(PedidoForm pedidoForm) {
+		
+		
+		public void inserirPedido(PedidoForm pedidoForm) throws ParametroObrigatorioException {
+			if(pedidoForm == null) throw new ParametroObrigatorioException("Campo 'pedido' é obrigatório");
 			Pedido pedido = new Pedido();
-			
+			ProdutoPedido pp = new ProdutoPedido();
+			Optional<Cliente> opC = clienteRepository.findById(pedidoForm.getCodigo_cliente());
+			Cliente cliente = new Cliente();
+			cliente = opC.get();
 			Double valorTotal = 0.0;
-			List<ProdutoPedido> ppList = new ArrayList<>();
-			ProdutoPedido pp = null;
 			
-			//Fazer a busca do cliente
-			Integer codCliente = pedidoForm.getCodigo_cliente(); 
-			Optional <Cliente> opCliente =  clienteRepository.findById(codCliente);
-			Cliente cliente = opCliente.get();
+			//Para pedido
+			pedido.setData_pedido(pedidoForm.getData_pedido());
 			pedido.setCliente(cliente);
 			
-			//Data do Pedido
-			pedido.setData_pedido(pedidoForm.getData_pedido());
-			
-			//Passar de form para produtoPedido
-			for(int i = 0; i < pedidoForm.getProdutosPedidos().size(); i++) {
-				
-				ProdutoPedidoForm ppForm = pedidoForm.getProdutosPedidos().get(i);
-				
-				Integer codProd = ppForm.getCodigo_produto();
-				Optional <Produto> opProd =  produtoRepository.findById(codProd);
-				Produto produto = opProd.get();
-				Double valorUnitario = produto.getValor_unitario();
-				Integer qtItens = ppForm.getQuantidade_itens();
-				
-				Double subtotal = valorUnitario * qtItens;
-				valorTotal +=  subtotal;
-				
-				pp.setProduto(produto);
-				pp.setPedido(pedido);
-				pp.setQuantidade_itens(qtItens);
-				
-				ppList.add(pp);
-				produtoPedidoRepository.save(pp);
-			}
+			//Para ProdutoPedido
+			pp.setPedido(pedido);
+			Optional<Produto> opProduto = produtoRepository.findById(pedidoForm.getCodigo_produto());
+			Produto produto = opProduto.get();
+			pp.setProduto(produto);
+			pp.setQuantidade_itens(pedidoForm.getQuantidade_item());
 
-			pedido.setListPedidoProduto(ppList);
+			//Para o calculo
+			Double vU = produto.getValor_unitario();
+			valorTotal += vU * pedidoForm.getQuantidade_item();
 			pedido.setValor_total(valorTotal);
-			pedidoRepository.save(pedido);
 			
+			pedidoRepository.save(pedido);
+			produtoPedidoRepository.save(pp);
 		}
+		
+		
+		
 		
 		public void deletarPedido(Integer id) throws pedidoNotFoundException {
-			Pedido pedido = listarPedidoPorId(id);
+			Optional<Pedido> opPedido = pedidoRepository.findById(id);
+			if(opPedido.isEmpty()) {
+				throw new pedidoNotFoundException("Endereço com id " + id + " não encontrado.");
+			}
+			Pedido pedido = opPedido.get();
 			pedidoRepository.delete(pedido);
+			
 			
 		}
 
-		public Pedido listarPedidoPorId(Integer id) throws pedidoNotFoundException {
+		public PedidoForm listarPedidoPorId(Integer id) throws pedidoNotFoundException {
 			Optional<Pedido> opPedido = pedidoRepository.findById(id);
-		
-			if(opPedido.isPresent()) {
-				Pedido pedido = opPedido.get();
-				return pedido;
+			if(opPedido.isEmpty()) {
+				throw new pedidoNotFoundException("Endereço com id " + id + " não encontrado.");
 			}
-			throw new pedidoNotFoundException("Endereço com id " + id + " não encontrado.");
+			Pedido p = opPedido.get();
+			Cliente cliente = p.getCliente();
+			PedidoForm pForm = new PedidoForm();
+			pForm.setCliente_nome(cliente.getNome());
+			pForm.setCodigo(p.getCodigo());
+			pForm.setCodigo_cliente(cliente.getCodigo());
+			pForm.setData_pedido(p.getData_pedido());
+			pForm.setValor_total(p.getValor_total());
+			List<ProdutoPedido> ppList = new ArrayList();
+			ppList = p.getListPedidoProduto();
+			
+			List<ProdutoPedidoForm> ppfList = new ArrayList<>();
+			for(int i = 0; i < ppList.size(); i++) {
+				ProdutoPedido pp = ppList.get(i);
+				ProdutoPedidoForm ppForm = new ProdutoPedidoForm();
+				Produto produto = pp.getProduto();
+				ppForm.setCodigo_produto(produto.getCodigo());
+				ppForm.setProduto_nome(produto.getNome());
+				ppForm.setQuantidade_itens(pp.getQuantidade_itens());
+				ppForm.setValor_unitario(produto.getValor_unitario());
+				ppfList.add(ppForm);
+			}
+			pForm.setProdutosPedidos(ppfList);
+			
+			return pForm;
 		}
 
 		public List<PedidoForm> listarPedido() {
@@ -148,6 +166,7 @@ public class PedidoService {
 			
 			return peFormList;
 		}
+
 
 
 }

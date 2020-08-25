@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.serratec.java2.projetoEcommerce.exceptions.FuncionarioNotFoundException;
+import com.serratec.java2.projetoEcommerce.exceptions.ParametroObrigatorioException;
 import com.serratec.java2.projetoEcommerce.models.Funcionario;
 import com.serratec.java2.projetoEcommerce.repository.FuncionarioRepository;
 
@@ -31,11 +32,13 @@ public class FuncionarioService {
 		throw new FuncionarioNotFoundException("O funcionário com o código "+ cod + " não foi encontrado");
 	}
 
-	public void criarFuncionario(Funcionario funcionario) {
+	public void criarFuncionario(Funcionario funcionario) throws ParametroObrigatorioException {
+		if(funcionario == null) throw new ParametroObrigatorioException("Campo 'funcionario' é obrigatório");
 		funcionarioRepository.save(funcionario);
 	}
 
-	public void atualizarFuncionario(Integer cod, Funcionario funcionario) throws FuncionarioNotFoundException {
+	public void atualizarFuncionario(Integer cod, Funcionario funcionario) throws FuncionarioNotFoundException, ParametroObrigatorioException {
+		if(funcionario == null) throw new ParametroObrigatorioException("Campo 'funcionario' é obrigatório");
 		Funcionario fNoDB = listarFuncionarioPorCodigo(cod);
 		
 		if(funcionario.getNome() != null) {

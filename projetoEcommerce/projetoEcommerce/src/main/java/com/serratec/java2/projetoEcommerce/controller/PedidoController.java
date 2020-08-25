@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.serratec.java2.projetoEcommerce.exceptions.ParametroObrigatorioException;
 import com.serratec.java2.projetoEcommerce.exceptions.pedidoNotFoundException;
 import com.serratec.java2.projetoEcommerce.forms.PedidoForm;
 import com.serratec.java2.projetoEcommerce.models.Pedido;
@@ -36,16 +38,16 @@ public class PedidoController {
 	List<ProdutoPedido> listaPP = new ArrayList<>();
 	
 	@PostMapping
-	public ResponseEntity<Void> inserirPedido(@RequestBody PedidoForm pedido){
+	public ResponseEntity<Void> inserirPedido(@RequestBody(required = false) PedidoForm pedido) throws ParametroObrigatorioException{
 		pedidoService.inserirPedido(pedido);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Pedido> listarPedidoPorId(@PathVariable Integer id) throws pedidoNotFoundException{
-		Pedido pedido = pedidoService.listarPedidoPorId(id); 
-		return new ResponseEntity<Pedido>(pedido, HttpStatus.OK);
+	public ResponseEntity<PedidoForm> listarPedidoPorId(@PathVariable Integer id) throws pedidoNotFoundException{
+		PedidoForm pedido = pedidoService.listarPedidoPorId(id); 
+		return new ResponseEntity<PedidoForm>(pedido, HttpStatus.OK);
 	}
 	
 	
@@ -62,7 +64,6 @@ public class PedidoController {
 		pedidoService.deletarPedido(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	
 	
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.serratec.java2.projetoEcommerce.exceptions.ParametroObrigatorioException;
 import com.serratec.java2.projetoEcommerce.exceptions.ValorInvalidoException;
 import com.serratec.java2.projetoEcommerce.exceptions.produtoNotFoundException;
 import com.serratec.java2.projetoEcommerce.forms.ProdutoForm;
@@ -38,7 +39,7 @@ public class ProdutoController {
 	ProdutoService produtoService;
 
 	@PostMapping
-	public ResponseEntity<Void> inserirProduto(@Valid @RequestBody ProdutoForm produtoForm) throws ValorInvalidoException{
+	public ResponseEntity<Void> inserirProduto(@Valid @RequestBody(required = false) ProdutoForm produtoForm) throws ValorInvalidoException, ParametroObrigatorioException{
 		produtoService.inserirProduto(produtoForm);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
@@ -87,7 +88,7 @@ public class ProdutoController {
 	}
 	
 	@PutMapping("/{id}")
-	public void substituir(@PathVariable Integer id,@Valid @RequestBody(required = false) Produto produto) throws ValorInvalidoException, produtoNotFoundException {
+	public void substituir(@PathVariable Integer id,@Valid @RequestBody(required = false) Produto produto) throws ValorInvalidoException, produtoNotFoundException, ParametroObrigatorioException {
 		produtoService.substituir(id, produto);
 	}
 

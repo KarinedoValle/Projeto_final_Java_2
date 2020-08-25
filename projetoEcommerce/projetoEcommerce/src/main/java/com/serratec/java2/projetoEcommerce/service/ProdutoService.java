@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.serratec.java2.projetoEcommerce.exceptions.ParametroObrigatorioException;
 import com.serratec.java2.projetoEcommerce.exceptions.ValorInvalidoException;
 import com.serratec.java2.projetoEcommerce.exceptions.produtoNotFoundException;
 import com.serratec.java2.projetoEcommerce.forms.ProdutoForm;
@@ -36,7 +37,8 @@ public class ProdutoService {
 	FuncionarioRepository funcionarioRepository;
 	
 
-	public void inserirProduto(@Valid ProdutoForm produtoForm) throws ValorInvalidoException {
+	public void inserirProduto(@Valid ProdutoForm produtoForm) throws ValorInvalidoException, ParametroObrigatorioException {
+		if(produtoForm == null) throw new ParametroObrigatorioException("Campo 'produto' é obrigatório");
 		Produto produto = new Produto();
 		
 		//Categoria
@@ -150,8 +152,8 @@ public class ProdutoService {
 		produtoNoBanco.setQuantidade_estoque(quantidade_estoque);
 	}
 	
-	public Produto substituir(Integer id, Produto produto) throws ValorInvalidoException, produtoNotFoundException {
-
+	public Produto substituir(Integer id, Produto produto) throws ValorInvalidoException, produtoNotFoundException, ParametroObrigatorioException {
+		if(produto == null) throw new ParametroObrigatorioException("Campo 'produto' é obrigatório");
 		if(produto.getValor_unitario() <= 0 || produto.getQuantidade_estoque() < 0) {
 			throw new ValorInvalidoException("Não são permitidos valores menores que 0");
 		}

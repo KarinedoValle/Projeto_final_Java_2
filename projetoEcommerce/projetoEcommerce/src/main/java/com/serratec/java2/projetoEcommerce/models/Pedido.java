@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "pedido")
@@ -27,7 +26,6 @@ public class Pedido {
 	@Column(name = "data_pedido")
 	private String data_pedido;
 	
-	@NotNull
 	@Column(name = "valor_total", nullable = false)
 	private Double valor_total;
 	

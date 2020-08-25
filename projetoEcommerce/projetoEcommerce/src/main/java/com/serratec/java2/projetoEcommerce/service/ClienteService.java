@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.serratec.java2.projetoEcommerce.exceptions.ParametroObrigatorioException;
 import com.serratec.java2.projetoEcommerce.exceptions.clienteNotFoundException;
 import com.serratec.java2.projetoEcommerce.forms.ClienteForm;
 import com.serratec.java2.projetoEcommerce.models.Cliente;
@@ -29,7 +30,9 @@ public class ClienteService {
 	EnderecoRepository enderecoRepository;
 	
 	
-	public void inserirCliente(@Valid ClienteForm clienteForm) {
+	public void inserirCliente(@Valid ClienteForm clienteForm) throws ParametroObrigatorioException {
+		if(clienteForm == null) throw new ParametroObrigatorioException("Campo 'cliente' é obrigatório");
+		
 		Cliente cliente = new Cliente();
 		
 		Integer codEnd = clienteForm.getCodigo_endereco();
@@ -55,14 +58,14 @@ public class ClienteService {
 	}
 
 	public Cliente listarClientesPorId(Integer id) throws clienteNotFoundException {
-		Optional<Cliente> opCliente = clienteRepository.findById(id);
-	
-		if(opCliente.isPresent()) {
-			Cliente cliente = opCliente.get();
-			return cliente;
-		}
-		throw new clienteNotFoundException("cliente com id " + id + " não encontrada");
-	}
+        Optional<Cliente> opCliente = clienteRepository.findById(id);
+   
+        if(opCliente.isPresent()) {
+            Cliente cliente = opCliente.get();
+            return cliente;
+        }
+        throw new clienteNotFoundException("cliente com id " + id + " não encontrada");
+    }
 
 	public Set<ClienteForm> listarClientes() {
 		Set<ClienteForm> cListFinal = new HashSet<>();
@@ -96,7 +99,8 @@ public class ClienteService {
 		return cListFinal;
 	}
 
-	public Cliente substituir(Integer id, @Valid Cliente cliente) throws clienteNotFoundException {
+	public Cliente substituir(Integer id, @Valid Cliente cliente) throws clienteNotFoundException, ParametroObrigatorioException {
+		if(cliente == null) throw new ParametroObrigatorioException("Campo 'cliente' é obrigatório");
 		
 		Cliente clienteNoBanco = listarClientesPorId(id);
 		

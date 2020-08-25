@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.serratec.java2.projetoEcommerce.exceptions.FuncionarioNotFoundException;
+import com.serratec.java2.projetoEcommerce.exceptions.ParametroObrigatorioException;
 import com.serratec.java2.projetoEcommerce.models.Funcionario;
 import com.serratec.java2.projetoEcommerce.service.FuncionarioService;
 
@@ -26,28 +27,33 @@ public class FuncionarioController {
 	FuncionarioService funcionarioService;
 	
 	@PostMapping
-	public void criarFuncionario(@RequestBody Funcionario funcionario) {
+	public ResponseEntity<Void> criarFuncionario(@RequestBody(required = false) Funcionario funcionario) throws ParametroObrigatorioException {
 		funcionarioService.criarFuncionario(funcionario);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping
-	public List<Funcionario> listarFuncionarios(){
-		return funcionarioService.listarFuncionarios();
+	public ResponseEntity<List<Funcionario>> listarFuncionarios(){
+		List<Funcionario> listaFuncionarios = funcionarioService.listarFuncionarios();
+		return new ResponseEntity<List<Funcionario>>(listaFuncionarios, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{cod}")
-	public Funcionario listarFuncionarioPorCodigo(@PathVariable Integer cod) throws FuncionarioNotFoundException {
-		return funcionarioService.listarFuncionarioPorCodigo(cod);
+	public ResponseEntity<Funcionario> listarFuncionarioPorCodigo(@PathVariable Integer cod) throws FuncionarioNotFoundException {
+		Funcionario f = funcionarioService.listarFuncionarioPorCodigo(cod);
+		return new ResponseEntity<Funcionario>(f, HttpStatus.OK);
 	}
 	
 	@PutMapping("/{cod}")
-	public void atualizarFuncionario(@PathVariable Integer cod, @RequestBody Funcionario funcionario) throws FuncionarioNotFoundException {
+	public ResponseEntity<Void> atualizarFuncionario(@PathVariable Integer cod, @RequestBody(required = false) Funcionario funcionario) throws FuncionarioNotFoundException, ParametroObrigatorioException {
 		funcionarioService.atualizarFuncionario(cod, funcionario);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{cod}")
-	public void deletarFuncionario(@PathVariable Integer cod) {
+	public ResponseEntity<Void> deletarFuncionario(@PathVariable Integer cod) {
 		funcionarioService.deletarFuncionario(cod);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	

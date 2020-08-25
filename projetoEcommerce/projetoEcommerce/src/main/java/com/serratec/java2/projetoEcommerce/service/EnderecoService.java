@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.serratec.java2.projetoEcommerce.exceptions.ParametroObrigatorioException;
 import com.serratec.java2.projetoEcommerce.exceptions.enderecoNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Endereco;
 import com.serratec.java2.projetoEcommerce.repository.EnderecoRepository;
@@ -18,7 +19,8 @@ public class EnderecoService {
 	@Autowired
 	EnderecoRepository enderecoRepository;
 	
-	public void inserirEndereco(Endereco endereco) {
+	public void inserirEndereco(Endereco endereco) throws ParametroObrigatorioException {
+		if(endereco == null) throw new ParametroObrigatorioException("Campo 'endereço' é obrigatório");
 		enderecoRepository.save(endereco);
 		
 	}
@@ -43,8 +45,8 @@ public class EnderecoService {
 		return enderecoRepository.findAll();
 	}
 
-	public Endereco substituir(Integer id, Endereco endereco) throws enderecoNotFoundException {
-		
+	public Endereco substituir(Integer id, Endereco endereco) throws enderecoNotFoundException, ParametroObrigatorioException {
+		if(endereco == null) throw new ParametroObrigatorioException("Campo 'endereço' é obrigatório");
 		Endereco enderecoNoBanco = listarEnderecoPorId(id);
 		
 		if (endereco.getRua() != null) {

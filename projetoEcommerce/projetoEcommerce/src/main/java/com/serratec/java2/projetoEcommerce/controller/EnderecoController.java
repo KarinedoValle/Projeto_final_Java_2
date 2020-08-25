@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.serratec.java2.projetoEcommerce.exceptions.ParametroObrigatorioException;
 import com.serratec.java2.projetoEcommerce.exceptions.enderecoNotFoundException;
 import com.serratec.java2.projetoEcommerce.models.Endereco;
 import com.serratec.java2.projetoEcommerce.service.EnderecoService;
@@ -26,7 +27,7 @@ public class EnderecoController {
 	EnderecoService enderecoService;
 
 	@PostMapping
-	public ResponseEntity<Void> inserirEndereco(@RequestBody Endereco endereco){
+	public ResponseEntity<Void> inserirEndereco(@RequestBody(required = false) Endereco endereco) throws ParametroObrigatorioException{
 		enderecoService.inserirEndereco(endereco);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
@@ -51,7 +52,7 @@ public class EnderecoController {
 	}
 	
 	@PutMapping("/{id}")
-	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Endereco endereco) throws enderecoNotFoundException {
+	public void substituir(@PathVariable Integer id, @RequestBody(required = false) Endereco endereco) throws enderecoNotFoundException, ParametroObrigatorioException {
 		enderecoService.substituir(id, endereco);
 	}
 }

@@ -23,9 +23,10 @@ public class PedidoForm {
 	
 	private Integer codigo;
 	
+	private Integer quantidade_item;
 	
+	private Integer codigo_produto;
 	
-	@NotNull
 	//de produtoPedido
 	List<ProdutoPedidoForm> produtosPedidos = new ArrayList<>();
 	
@@ -77,6 +78,22 @@ public class PedidoForm {
 
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
+	}
+
+	public Integer getQuantidade_item() {
+		return quantidade_item;
+	}
+
+	public void setQuantidade_item(Integer quantidade_item) {
+		this.quantidade_item = quantidade_item;
+	}
+
+	public Integer getCodigo_produto() {
+		return codigo_produto;
+	}
+
+	public void setCodigo_produto(Integer codigo_produto) {
+		this.codigo_produto = codigo_produto;
 	}
 	
 	

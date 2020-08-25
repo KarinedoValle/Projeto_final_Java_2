@@ -15,6 +15,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import com.serratec.java2.projetoEcommerce.exceptions.CategoriaNotFoundException;
 import com.serratec.java2.projetoEcommerce.exceptions.FuncionarioNotFoundException;
+import com.serratec.java2.projetoEcommerce.exceptions.ParametroObrigatorioException;
 import com.serratec.java2.projetoEcommerce.exceptions.ValorInvalidoException;
 import com.serratec.java2.projetoEcommerce.exceptions.clienteNotFoundException;
 import com.serratec.java2.projetoEcommerce.exceptions.enderecoNotFoundException;
@@ -27,52 +28,55 @@ public class ExceptionsController {
 	@ExceptionHandler(CategoriaNotFoundException.class)
 	public ResponseEntity<String> CategoriaNotFoundException(CategoriaNotFoundException exception){
 		String msg = exception.getMessage();
-		//Map<String, Strings> errors = "";
-//		return handleExcpetionInternal(ex, msg, )
-//		return new ResponseEntity<String>(msg, HttpStatus.NOT_FOUND);
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
 	}
 	
-	@ExceptionHandler(clienteNotFoundException.class)
-	public ResponseEntity<Void> clienteNotFoundException(clienteNotFoundException exception){
+	@ExceptionHandler(ParametroObrigatorioException.class)
+	public ResponseEntity<String> ParametroObrigatorioException(ParametroObrigatorioException exception){
 		String msg = exception.getMessage();
-		return ResponseEntity.notFound().header("cliente-erro", msg).build();
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
+	}
+	
+	@ExceptionHandler(clienteNotFoundException.class)
+	public ResponseEntity<String> clienteNotFoundException(clienteNotFoundException exception){
+		String msg = exception.getMessage();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
 	}
 	
 	@ExceptionHandler(ValorInvalidoException.class)
-	public ResponseEntity<Void> ValorInvalidoException(ValorInvalidoException exception){
+	public ResponseEntity<String> ValorInvalidoException(ValorInvalidoException exception){
 		String msg = exception.getMessage();
-		return ResponseEntity.badRequest().header("valor-unitario-erro", msg).build();
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
 	}
 	
 	@ExceptionHandler(produtoNotFoundException.class)
-	public ResponseEntity<Void> produtoNotFoundException(produtoNotFoundException exception){
+	public ResponseEntity<String> produtoNotFoundException(produtoNotFoundException exception){
 		String msg = exception.getMessage();
-		return ResponseEntity.badRequest().header("produto-erro", msg).build();
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
 	}
 	
 	@ExceptionHandler(pedidoNotFoundException.class)
-	public ResponseEntity<Void> pedidoNotFoundException(pedidoNotFoundException exception){
+	public ResponseEntity<String> pedidoNotFoundException(pedidoNotFoundException exception){
 		String msg = exception.getMessage();
-		return ResponseEntity.badRequest().header("produto-erro", msg).build();
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
 	}
 	
 	@ExceptionHandler(enderecoNotFoundException.class)
-	public ResponseEntity<Void> enderecoNotFoundException(enderecoNotFoundException exception){
+	public ResponseEntity<String> enderecoNotFoundException(enderecoNotFoundException exception){
 		String msg = exception.getMessage();
-		return ResponseEntity.badRequest().header("produto-erro", msg).build();
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
 	}
 	
 	@ExceptionHandler(FuncionarioNotFoundException.class)
-	public ResponseEntity<Void> FuncionarioNotFoundException(FuncionarioNotFoundException exception){
+	public ResponseEntity<String> FuncionarioNotFoundException(FuncionarioNotFoundException exception){
 		String msg = exception.getMessage();
-		return ResponseEntity.badRequest().header("produto-erro", msg).build();
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
 	}
 	
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	public ResponseEntity<Void> MethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception){
+	public ResponseEntity<String> MethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception){
 		String msg = exception.getMessage();
-		return ResponseEntity.badRequest().header("erro-datatype", msg).build();
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -87,4 +91,16 @@ public class ExceptionsController {
 		}
 		return ResponseEntity.badRequest().body(errosMap);
 	}
+   
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<String> NullPointerException(NullPointerException exception){
+        String msg = exception.getMessage();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+    }
+   
+    @ExceptionHandler(IndexOutOfBoundsException.class)
+    public ResponseEntity<String> IndexOutOfBoundsException(IndexOutOfBoundsException exception){
+        String msg = exception.getMessage();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+    }
 }

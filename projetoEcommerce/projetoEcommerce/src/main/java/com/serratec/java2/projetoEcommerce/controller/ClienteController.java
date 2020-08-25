@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.serratec.java2.projetoEcommerce.exceptions.ParametroObrigatorioException;
 import com.serratec.java2.projetoEcommerce.exceptions.clienteNotFoundException;
 import com.serratec.java2.projetoEcommerce.forms.ClienteForm;
 import com.serratec.java2.projetoEcommerce.models.Cliente;
@@ -36,7 +37,7 @@ public class ClienteController {
 
 	
 	@PostMapping
-	public ResponseEntity<Void> inserirCliente(@Valid @RequestBody ClienteForm clienteForm){
+	public ResponseEntity<Void> inserirCliente(@Valid @RequestBody(required = false) ClienteForm clienteForm) throws ParametroObrigatorioException{
 		clienteService.inserirCliente(clienteForm);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
@@ -63,7 +64,7 @@ public class ClienteController {
 	}
 	
 	@PutMapping("/{id}")
-	public void substituir(@PathVariable Integer id,@Valid @RequestBody(required = false) Cliente cliente) throws clienteNotFoundException {
+	public void substituir(@PathVariable Integer id,@Valid @RequestBody(required = false) Cliente cliente) throws clienteNotFoundException, ParametroObrigatorioException {
 		clienteService.substituir(id, cliente);
 	}
 	
