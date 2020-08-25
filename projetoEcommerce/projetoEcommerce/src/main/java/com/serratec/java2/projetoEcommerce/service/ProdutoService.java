@@ -23,9 +23,6 @@ import com.serratec.java2.projetoEcommerce.repository.ProdutoRepository;
 @Service
 public class ProdutoService {
 
-//		cadastrar/deletar/atualizar produto 
-//		consultar/atualizar os preços dos produtos
-//		consultar/atualizar o estoque
 
 	@Autowired
 	ProdutoRepository produtoRepository;
@@ -45,10 +42,6 @@ public class ProdutoService {
 		Integer codCat = produtoForm.getCodigo_categoria();
 		Optional <Categoria> opCat = categoriaRepository.findById(codCat);
 		
-//		Testar se a categoria existe 
-//		if(!opCat.isPresent()) {
-//			throw new ValorInvalidoException("Não são permitidos valores menores que 0");
-//		}
 		
 		Categoria categoria = opCat.get();
 		produto.setCategoria(categoria);
